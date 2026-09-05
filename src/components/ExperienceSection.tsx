@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import { Calendar, CheckCircle2, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
+import {
+  Calendar,
+  CheckCircle2,
+  MapPin,
+  Building2,
+  Layers,
+  Briefcase,
+  Award,
+  ArrowRight,
+  MousePointerClick,
+  Sparkles
+} from 'lucide-react';
 
-export const ExperienceSection: React.FC = () => {
-  const [deepblueeOpen, setDeepblueeOpen] = useState(true);
-  const [coquillaOpen, setCoquillaOpen] = useState(true);
+interface ExperienceSectionProps {
+  onNavigateSection?: (index: number) => void;
+}
+
+export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onNavigateSection }) => {
+  const [activeCompany, setActiveCompany] = useState<'deepbluee' | 'coquilla'>('deepbluee');
 
   // DeepBluee Data
   const deepblueeCategories = [
@@ -80,339 +94,277 @@ export const ExperienceSection: React.FC = () => {
   ];
 
   return (
-    <section id="experience" className="py-20 sm:py-28 bg-transparent relative scroll-mt-20">
-      {/* Background Subtle Neutral Ambient */}
-      <div className="absolute top-1/3 left-1/4 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-tr from-black/[0.02] dark:from-white/[0.02] to-transparent blur-3xl pointer-events-none -z-10" />
+    <section
+      id="experience"
+      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+    >
+      {/* Background Subtle CAD Grid */}
+      <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />
+      <div className="absolute top-1/3 left-1/4 w-[650px] h-[450px] bg-radial from-[#FF5600]/[0.03] dark:from-[#FF5600]/[0.05] to-transparent blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14">
-        
-        {/* Section Header */}
-        <div className="flex flex-col gap-2 max-w-2xl mb-12 sm:mb-16">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-apple-mono text-[#CC8400] uppercase tracking-widest font-semibold">
-              02 / Professional Experience
-            </span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] leading-tight font-apple-display">
-            Industry experience across construction trades.
-          </h2>
-          <p className="text-sm sm:text-base text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-apple-text">
-            Hands-on preconstruction, commercial estimating, and engineering consultancy across active construction and consulting firms.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-10">
-
-          {/* TIMELINE CARD 1: DeepBluee Swimming Pool Builders */}
-          <div className="rounded-3xl overflow-hidden liquid-card border border-black/[0.07] dark:border-white/[0.09] shadow-xl flex flex-col">
+      <div className="max-w-7xl w-full mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* LEFT COLUMN: Section Kicker, Headings, Highlights & Company Selector */}
+          <div className="lg:col-span-5 flex flex-col gap-5">
             
-            {/* Card Section Header */}
-            <div className="px-5 py-3.5 bg-[#F7F7F8]/80 dark:bg-[#121215]/80 backdrop-blur-md border-b border-black/[0.05] dark:border-white/[0.06] flex items-center justify-between">
-              <span className="text-xs font-apple-mono uppercase tracking-wider text-[#4A4A4A] dark:text-[#9E9E9E] font-semibold">
-                Career Timeline
-              </span>
-              <span className="text-[11px] font-apple-mono text-[#CC8400] font-medium">
-                Commercial Estimating
+            {/* Christoph Nagel Section Kicker */}
+            <div className="flex items-center gap-3">
+              <span className="section-kicker">
+                <span className="kicker-badge">02</span>
+                <span>FIELD EXPERIENCE · 60+ PROJECTS</span>
               </span>
             </div>
 
-            <div className="p-6 sm:p-8 lg:p-10 flex flex-col gap-8">
-              
-              {/* Card Top Header */}
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-black/[0.05] dark:border-white/[0.06] pb-6">
-                <div className="flex flex-col gap-2.5">
-                  {/* Metadata Badges */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#CC8400]/10 border border-[#CC8400]/30 text-xs font-apple-text text-[#CC8400] font-semibold">
-                      Construction Estimator
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] text-xs font-apple-text text-[#1A1A1A] dark:text-[#E0E0E0] flex items-center gap-1.5 font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#CC8400] animate-pulse" />
-                      3 Years (2022 – 2025)
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] text-xs font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E] flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-[#CC8400]" />
-                      Tagum City, Philippines
-                    </span>
-                  </div>
-                  
-                  {/* Company Name */}
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display tracking-tight">
-                    DeepBluee Swimming Pool Builders
-                  </h3>
-                  
-                  {/* Role & Scope Description */}
-                  <p className="text-xs sm:text-sm font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E]">
-                    Civil Engineering Preconstruction, Cost Estimating & BOQ Derivations
-                  </p>
-                </div>
+            {/* Bold Impact Heading */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-anton text-[#1A1A1A] dark:text-[#F4F4F1] leading-[1.02] tracking-tight uppercase">
+              PROVEN TRACK RECORD IN <span className="text-[#FF5600]">ESTIMATING & SITE</span> COORDINATION.
+            </h2>
 
-                {/* Right Meta Highlight Box */}
-                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 p-3 sm:p-3.5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08] shrink-0 w-full lg:w-auto self-start lg:self-center">
-                  <div className="flex items-center gap-1.5 text-xs font-apple-mono text-[#1A1A1A] dark:text-[#E0E0E0]">
-                    <Calendar className="w-3.5 h-3.5 text-[#CC8400]" />
-                    <span className="font-semibold">Nov 2022 – Dec 2025</span>
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#FF5600]/10 border border-[#FF5600]/25 text-[11px] font-apple-mono font-semibold text-[#FF5600]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF5600]" />
-                    60+ Projects Handled
-                  </span>
-                </div>
+            <p className="text-xs sm:text-sm text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-manrope">
+              Hands-on commercial and residential estimating experience, transitioning from on-site structural engineering to digital take-offs and preconstruction BOQ preparation.
+            </p>
+
+            {/* Quick Metrics Grid */}
+            <div className="grid grid-cols-3 gap-2 pt-1">
+              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.08]">
+                <div className="text-xl sm:text-2xl font-anton text-[#FF5600]">60+</div>
+                <div className="text-[10px] font-space text-[#4A4A4A] dark:text-[#9E9E9E] uppercase">Projects</div>
               </div>
-
-              {/* PlanSwift, Bluebeam & Microsoft Excel Callout Banner */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08]">
-                <div className="flex items-center gap-3.5">
-                  <div className="flex items-center -space-x-2 shrink-0">
-                    <img
-                      src="/assets/software/planswift-logo.png"
-                      alt="PlanSwift"
-                      className="w-10 h-10 object-contain rounded-xl bg-white dark:bg-[#121214] p-1.5 border border-black/[0.08] dark:border-white/[0.1] shadow-xs relative z-30"
-                    />
-                    <img
-                      src="/assets/software/bluebeam-logo.png"
-                      alt="Bluebeam"
-                      className="w-10 h-10 object-contain rounded-xl bg-white dark:bg-[#121214] p-1.5 border border-black/[0.08] dark:border-white/[0.1] shadow-xs relative z-20"
-                    />
-                    <img
-                      src="/assets/software/excel-logo.svg"
-                      alt="Microsoft Excel"
-                      className="w-10 h-10 object-contain rounded-xl bg-white dark:bg-[#121214] p-1.5 border border-black/[0.08] dark:border-white/[0.1] shadow-xs relative z-10"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-text">
-                      PlanSwift, Bluebeam & Microsoft Excel
-                    </span>
-                    <span className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-apple-text">
-                      Used across 3 years of commercial estimating to perform digital quantity take-offs, BOQ derivations, and cost estimates for swimming pools, houses, and warehouses.
-                    </span>
-                  </div>
-                </div>
+              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.08]">
+                <div className="text-xl sm:text-2xl font-anton text-[#FF5600]">3 YRS</div>
+                <div className="text-[10px] font-space text-[#4A4A4A] dark:text-[#9E9E9E] uppercase">PlanSwift</div>
               </div>
+              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.08]">
+                <div className="text-xl sm:text-2xl font-anton text-[#FF5600]">100%</div>
+                <div className="text-[10px] font-space text-[#4A4A4A] dark:text-[#9E9E9E] uppercase">Traceable</div>
+              </div>
+            </div>
 
-              {/* Project Exposure Categories */}
-              <div className="flex flex-col gap-3">
-                <span className="text-xs font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] font-semibold">
-                  Project Exposure Categories
+            {/* Christoph Nagel Interactive Company Switcher Tabs with Prominent Exploration Invitation */}
+            <div className="flex flex-col gap-2 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[10px] font-space text-[#FF5600] uppercase font-bold tracking-wider">
+                  <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
+                  <span>Click to Switch Company Context:</span>
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {deepblueeCategories.map((cat) => (
+                <span className="text-[10px] font-manrope text-[#7A7A7A] dark:text-[#8E8E8E]">
+                  2 Roles Available
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 p-1.5 rounded-2xl bg-black/[0.05] dark:bg-white/[0.06] border-2 border-[#FF5600]/30 dark:border-[#FF5600]/40 shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setActiveCompany('deepbluee')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-manrope font-bold transition-all cursor-pointer text-center flex flex-col items-center gap-0.5 relative ${
+                    activeCompany === 'deepbluee'
+                      ? 'bg-[#FF5600] text-white shadow-md'
+                      : 'text-[#4A4A4A] dark:text-[#B0B0B0] hover:text-black dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
+                  }`}
+                >
+                  <span className="truncate">DeepBluee Inc.</span>
+                  <span className={`text-[9px] font-space tracking-tight ${activeCompany === 'deepbluee' ? 'text-white/90' : 'text-[#FF5600]'}`}>
+                    {activeCompany === 'deepbluee' ? '✓ Currently Viewing' : '👉 Click to View (3 Yrs)'}
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveCompany('coquilla')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-manrope font-bold transition-all cursor-pointer text-center flex flex-col items-center gap-0.5 relative ${
+                    activeCompany === 'coquilla'
+                      ? 'bg-[#FF5600] text-white shadow-md'
+                      : 'text-[#4A4A4A] dark:text-[#B0B0B0] hover:text-black dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
+                  }`}
+                >
+                  <span className="truncate">Coquilla Consultancy</span>
+                  <span className={`text-[9px] font-space tracking-tight ${activeCompany === 'coquilla' ? 'text-white/90' : 'text-[#FF5600]'}`}>
+                    {activeCompany === 'coquilla' ? '✓ Currently Viewing' : '👉 Click to View (Civil/Gov)'}
+                  </span>
+                </button>
+              </div>
+
+              {/* Exploration Hint Box */}
+              <div className="p-3 rounded-xl bg-[#FF5600]/[0.06] border border-[#FF5600]/20 flex items-start gap-2.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5600] flex-shrink-0 mt-0.5" />
+                <p className="text-[11px] font-manrope text-[#5A5A5A] dark:text-[#B0B0B0] leading-relaxed">
+                  <strong className="text-[#1A1A1A] dark:text-[#F4F4F1]">Interactive Portfolio Hint:</strong> Click both tabs above to inspect <span className="text-[#FF5600] font-semibold">60+ commercial pool & residential projects</span> at DeepBluee versus <span className="text-[#FF5600] font-semibold">government civil tenders</span> at Coquilla.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT COLUMN: Interactive Scrollable Content Panel (Christoph Nagel .content-panel) */}
+          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-3 panel-scrollbar flex flex-col gap-4">
+            
+            {activeCompany === 'deepbluee' ? (
+              <div className="flex flex-col gap-4 animate-subtle-fade-in">
+                {/* Company Header Card */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.1]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-black/[0.06] dark:border-white/[0.08] pb-3">
+                    <div>
+                      <h3 className="text-lg font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                        DeepBluee Inc.
+                      </h3>
+                      <p className="text-xs text-[#FF5600] font-space font-medium">
+                        Construction Estimator & Site Engineer
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] font-space text-[#4A4A4A] dark:text-[#9E9E9E]">
+                      <Calendar className="w-3.5 h-3.5 text-[#FF5600]" />
+                      <span>3 Years Full-Time Exposure</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope leading-relaxed mt-3">
+                    Managed estimating, quantity take-offs, and preconstruction documentation across 60+ residential and commercial pool projects, residential houses, and warehouse developments.
+                  </p>
+
+                  {/* 4 Project Categories Chips */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-3 border-t border-black/[0.05] dark:border-white/[0.06]">
+                    {deepblueeCategories.map((cat) => (
+                      <div
+                        key={cat.name}
+                        className="p-2 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/[0.06] text-center"
+                      >
+                        <div className="text-[11px] font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-manrope">
+                          {cat.name}
+                        </div>
+                        <div className="text-[9px] font-space text-[#FF5600]">
+                          {cat.count}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Scope Cards */}
+                <div className="flex flex-col gap-3">
+                  {deepblueeScopes.map((scope) => (
                     <div
-                      key={cat.name}
-                      className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] hover:border-[#FF5600]/40 transition-all flex flex-col gap-1 shadow-2xs"
+                      key={scope.category}
+                      className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]"
                     >
-                      <span className="text-xs font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display">
-                        {cat.name}
-                      </span>
-                      <span className="text-[11px] font-apple-mono text-[#CC8400] font-medium">
-                        {cat.count}
-                      </span>
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <Layers className="w-3.5 h-3.5 text-[#FF5600]" />
+                        <h4 className="text-xs sm:text-sm font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                          {scope.category}
+                        </h4>
+                      </div>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {scope.items.map((item) => (
+                          <li
+                            key={item}
+                            className="flex items-start gap-2 text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5600] flex-shrink-0 mt-0.5" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ))}
                 </div>
               </div>
-
-              {/* Scope Breakdown Toggle Button */}
-              <div className="border-t border-black/[0.05] dark:border-white/[0.06] pt-4">
-                <button
-                  type="button"
-                  onClick={() => setDeepblueeOpen(!deepblueeOpen)}
-                  className="flex items-center justify-between w-full text-left py-2 text-xs font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-[#E0E0E0] transition-colors cursor-pointer font-medium"
-                >
-                  <span>Detailed Professional Responsibilities & Scope Handled</span>
-                  <div className="flex items-center gap-1.5 text-[#CC8400] font-semibold">
-                    <span>{deepblueeOpen ? 'Hide' : 'Expand'}</span>
-                    {deepblueeOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            ) : (
+              <div className="flex flex-col gap-4 animate-subtle-fade-in">
+                {/* Coquilla Company Header Card */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.1]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-black/[0.06] dark:border-white/[0.08] pb-3">
+                    <div>
+                      <h3 className="text-lg font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                        Coquilla Engineering Consultancy
+                      </h3>
+                      <p className="text-xs text-[#FF5600] font-space font-medium">
+                        Civil Engineer & Project Estimator
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] font-space text-[#4A4A4A] dark:text-[#9E9E9E]">
+                      <Calendar className="w-3.5 h-3.5 text-[#FF5600]" />
+                      <span>Engineering Consultancy</span>
+                    </div>
                   </div>
-                </button>
 
-                {/* Expanded Detailed Grid */}
-                {deepblueeOpen && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 animate-in fade-in duration-200">
-                    {deepblueeScopes.map((scope) => (
+                  <p className="text-xs sm:text-sm text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope leading-relaxed mt-3">
+                    Conducted feasibility cost studies, government public tender biddings, regulatory compliance certifications, and structural site inspections for commercial and institutional projects.
+                  </p>
+
+                  {/* 4 Categories */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-3 border-t border-black/[0.05] dark:border-white/[0.06]">
+                    {coquillaCategories.map((cat) => (
                       <div
-                        key={scope.category}
-                        className="p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] flex flex-col gap-3.5 shadow-2xs"
+                        key={cat.name}
+                        className="p-2 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/[0.06] text-center"
                       >
-                        <span className="text-xs font-semibold text-[#CC8400] font-apple-text">
-                          {scope.category}
-                        </span>
-                        <ul className="flex flex-col gap-2.5">
-                          {scope.items.map((item, idx) => (
-                            <li key={idx} className="flex items-start gap-2.5 text-xs text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-apple-text">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#CC8400] flex-shrink-0 mt-0.5" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="text-[11px] font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-manrope">
+                          {cat.name}
+                        </div>
+                        <div className="text-[9px] font-space text-[#FF5600]">
+                          {cat.count}
+                        </div>
                       </div>
                     ))}
                   </div>
-                )}
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* TIMELINE CARD 2: Coquilla Engineering Consultancy and Allied Services */}
-          <div className="rounded-3xl overflow-hidden liquid-card border border-black/[0.07] dark:border-white/[0.09] shadow-xl flex flex-col">
-            
-            {/* Card Section Header */}
-            <div className="px-5 py-3.5 bg-[#F7F7F8]/80 dark:bg-[#121215]/80 backdrop-blur-md border-b border-black/[0.05] dark:border-white/[0.06] flex items-center justify-between">
-              <span className="text-xs font-apple-mono uppercase tracking-wider text-[#4A4A4A] dark:text-[#9E9E9E] font-semibold">
-                Career Timeline
-              </span>
-              <span className="text-[11px] font-apple-mono text-[#CC8400] font-medium">
-                Engineering Consultancy
-              </span>
-            </div>
-
-            <div className="p-6 sm:p-8 lg:p-10 flex flex-col gap-8">
-              
-              {/* Card Top Header */}
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-black/[0.05] dark:border-white/[0.06] pb-6">
-                <div className="flex flex-col gap-2.5">
-                  {/* Metadata Badges */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#CC8400]/10 border border-[#CC8400]/30 text-xs font-apple-text text-[#CC8400] font-semibold">
-                      Consulting Engineer
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] text-xs font-apple-text text-[#1A1A1A] dark:text-[#E0E0E0] flex items-center gap-1.5 font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#CC8400]" />
-                      1 Year (2021 – 2022)
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] text-xs font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E] flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-[#CC8400]" />
-                      Tagum City, Philippines
-                    </span>
-                  </div>
-                  
-                  {/* Company Name */}
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display tracking-tight">
-                    Coquilla Engineering Consultancy and Allied Services
-                  </h3>
-                  
-                  {/* Role & Scope Description */}
-                  <p className="text-xs sm:text-sm font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E]">
-                    Civil Works, Feasibility Studies, Regulatory Permitting & Site Supervision
-                  </p>
                 </div>
 
-                {/* Right Meta Highlight Box */}
-                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 p-3 sm:p-3.5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08] shrink-0 w-full lg:w-auto self-start lg:self-center">
-                  <div className="flex items-center gap-1.5 text-xs font-apple-mono text-[#1A1A1A] dark:text-[#E0E0E0]">
-                    <Calendar className="w-3.5 h-3.5 text-[#CC8400]" />
-                    <span className="font-semibold">Oct 2021 – Sep 2022</span>
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#FF5600]/10 border border-[#FF5600]/25 text-[11px] font-apple-mono font-semibold text-[#FF5600]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF5600]" />
-                    Civil & Public Biddings
-                  </span>
-                </div>
-              </div>
-
-              {/* AutoCAD, EPANET & SketchUp Callout Banner */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08]">
-                <div className="flex items-center gap-3.5">
-                  <div className="flex items-center -space-x-2 shrink-0">
-                    <img
-                      src="/assets/software/autocad-logo.svg"
-                      alt="AutoCAD"
-                      className="w-10 h-10 object-contain rounded-xl bg-white dark:bg-[#121214] p-1.5 border border-black/[0.08] dark:border-white/[0.1] shadow-xs relative z-30"
-                    />
-                    <img
-                      src="/assets/software/epanet-logo.svg"
-                      alt="EPANET"
-                      className="w-10 h-10 object-contain rounded-xl bg-white dark:bg-[#121214] p-1 border border-black/[0.08] dark:border-white/[0.1] shadow-xs relative z-20"
-                    />
-                    <img
-                      src="/assets/software/sketchup-logo.svg"
-                      alt="SketchUp"
-                      className="w-10 h-10 object-contain rounded-xl bg-white dark:bg-[#121214] p-1.5 border border-black/[0.08] dark:border-white/[0.1] shadow-xs relative z-10"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-text">
-                      AutoCAD, EPANET & SketchUp
-                    </span>
-                    <span className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-apple-text">
-                      Utilized for drafting 2D construction drawings, pipeline hydraulic modeling, and architectural 3D rendering alongside permit documentation packages.
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Project Exposure Categories */}
-              <div className="flex flex-col gap-3">
-                <span className="text-xs font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] font-semibold">
-                  Project Exposure Categories
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {coquillaCategories.map((cat) => (
+                {/* Scope Cards */}
+                <div className="flex flex-col gap-3">
+                  {coquillaScopes.map((scope) => (
                     <div
-                      key={cat.name}
-                      className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] hover:border-[#FF5600]/40 transition-all flex flex-col gap-1 shadow-2xs"
+                      key={scope.category}
+                      className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]"
                     >
-                      <span className="text-xs font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display">
-                        {cat.name}
-                      </span>
-                      <span className="text-[11px] font-apple-mono text-[#CC8400] font-medium">
-                        {cat.count}
-                      </span>
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <Award className="w-3.5 h-3.5 text-[#FF5600]" />
+                        <h4 className="text-xs sm:text-sm font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                          {scope.category}
+                        </h4>
+                      </div>
+                      <ul className="flex flex-col gap-2">
+                        {scope.items.map((item) => (
+                          <li
+                            key={item}
+                            className="flex items-start gap-2 text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope leading-relaxed"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5600] flex-shrink-0 mt-0.5" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ))}
                 </div>
               </div>
+            )}
 
-              {/* Scope Breakdown Toggle Button */}
-              <div className="border-t border-black/[0.05] dark:border-white/[0.06] pt-4">
+            {/* In-Content Navigation Invitation to Next Framework */}
+            {onNavigateSection && (
+              <div className="mt-2 p-4 rounded-2xl bg-gradient-to-r from-[#FF5600]/10 to-transparent border border-[#FF5600]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider block">
+                    Completed Exploring Experience?
+                  </span>
+                  <p className="text-xs font-manrope text-[#3A3A3A] dark:text-[#E0E0E0] font-medium">
+                    Next: Inspect the 8-Stage Estimating Flow & 4-Discipline Software Rig.
+                  </p>
+                </div>
                 <button
                   type="button"
-                  onClick={() => setCoquillaOpen(!coquillaOpen)}
-                  className="flex items-center justify-between w-full text-left py-2 text-xs font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-[#E0E0E0] transition-colors cursor-pointer font-medium"
+                  onClick={() => onNavigateSection(3)}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FF5600] hover:bg-[#E04C00] text-white font-manrope font-bold text-xs transition-all shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
                 >
-                  <span>Detailed Professional Responsibilities & Scope Handled</span>
-                  <div className="flex items-center gap-1.5 text-[#CC8400] font-semibold">
-                    <span>{coquillaOpen ? 'Hide' : 'Expand'}</span>
-                    {coquillaOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </div>
+                  <span>Explore Methodology</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
-
-                {/* Expanded Detailed Grid */}
-                {coquillaOpen && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 animate-in fade-in duration-200">
-                    {coquillaScopes.map((scope) => (
-                      <div
-                        key={scope.category}
-                        className="p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] flex flex-col gap-3.5 shadow-2xs"
-                      >
-                        <span className="text-xs font-semibold text-[#CC8400] font-apple-text">
-                          {scope.category}
-                        </span>
-                        <ul className="flex flex-col gap-2.5">
-                          {scope.items.map((item, idx) => (
-                            <li key={idx} className="flex items-start gap-2.5 text-xs text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-apple-text">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#CC8400] flex-shrink-0 mt-0.5" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
-
-            </div>
+            )}
 
           </div>
 
         </div>
-
       </div>
     </section>
   );
 };
-

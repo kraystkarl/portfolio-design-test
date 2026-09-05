@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { 
-  Plus, 
-  Minus, 
-  Check, 
   Calculator, 
   FolderKanban, 
   PenTool, 
-  MessageSquare, 
   FileText, 
   Sparkles,
   Layers,
-  ChevronLeft,
   ChevronRight,
-  Grid,
-  SlidersHorizontal
+  CheckCircle2,
+  Table,
+  Sliders,
+  Check,
+  MousePointerClick,
+  ArrowRight
 } from 'lucide-react';
 import { MethodologyStep } from '../types';
 
@@ -34,10 +33,13 @@ interface SoftwareCategory {
   tools: SoftwareItem[];
 }
 
-export const ToolsAndMethodologySection: React.FC = () => {
-  const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
+interface ToolsAndMethodologySectionProps {
+  onNavigateSection?: (index: number) => void;
+}
+
+export const ToolsAndMethodologySection: React.FC<ToolsAndMethodologySectionProps> = ({ onNavigateSection }) => {
+  const [activeTab, setActiveTab] = useState<'methodology' | 'software' | 'comparison'>('methodology');
   const [activeDisciplineIndex, setActiveDisciplineIndex] = useState<number>(0);
-  const [viewMode, setViewMode] = useState<'deck' | 'matrix'>('deck');
 
   const softwareCategories: SoftwareCategory[] = [
     {
@@ -61,174 +63,112 @@ export const ToolsAndMethodologySection: React.FC = () => {
           logo: '/assets/software/bluebeam-logo.png',
         },
         {
+          name: 'Buildxact',
+          role: 'Residential Estimating & Quoting',
+          badge: 'SMB Workflows',
+          logo: '/assets/software/buildxact-logo.png',
+        },
+        {
           name: 'Microsoft Excel',
-          role: 'BOQ & Calculation Lineage',
-          badge: 'Dynamic Formula Arrays',
-          logo: '/assets/software/excel-logo.svg',
+          role: 'BOQ, QC Matrix & Audit Lineage',
+          badge: 'Dynamic Formulas',
+          logo: '/assets/software/excel-logo.png',
         },
       ],
     },
     {
-      id: 'coordination',
+      id: 'cad',
       code: '02',
-      title: 'Project Coordination',
-      shortName: 'Coordination',
-      scopeSummary: 'Cross-functional alignment, subcontractor tracking & milestone schedules',
-      icon: FolderKanban,
-      tools: [
-        {
-          name: 'Google Workspace',
-          role: 'Cloud Sheets & Team Collab',
-          badge: 'Real-Time Sharing',
-          logo: '/assets/software/google-workspace-logo.svg',
-        },
-        {
-          name: 'Microsoft Excel',
-          role: 'Project Tracking & Schedules',
-          badge: 'Milestone Matrices',
-          logo: '/assets/software/excel-logo.svg',
-        },
-      ],
-    },
-    {
-      id: 'design',
-      code: '03',
-      title: 'Design & Rendering',
-      shortName: 'Design & 3D',
-      scopeSummary: '2D blueprint drafting, 3D structural modeling & architectural renders',
+      title: 'CAD, BIM & 3D Drafting',
+      shortName: 'CAD & 3D',
+      scopeSummary: 'Plan drafting, cross-section checks & geometric verification',
       icon: PenTool,
       tools: [
         {
           name: 'AutoCAD',
-          role: '2D Construction Drawings',
-          badge: 'Plans & Section Cuts',
-          logo: '/assets/software/autocad-logo.svg',
+          role: '2D Drafting & Measurement Verification',
+          badge: 'Core CAD Engine',
+          logo: '/assets/software/autocad-logo.png',
         },
         {
           name: 'SketchUp',
-          role: '3D Spatial Modeling',
-          badge: 'Volumetric Layouts',
-          logo: '/assets/software/sketchup-logo.svg',
+          role: '3D Volume & Elevation Visualization',
+          badge: 'Spatial Context',
+          logo: '/assets/software/sketchup-logo.png',
         },
         {
-          name: 'Lumion',
-          role: 'Architectural Rendering',
-          badge: 'Photorealistic Visuals',
-          logo: '/assets/software/lumion-logo.svg',
+          name: 'Autodesk Revit',
+          role: 'BIM Component Review & Schedules',
+          badge: 'Model Extraction',
+          logo: '/assets/software/revit-logo.png',
+        },
+        {
+          name: 'Blender',
+          role: 'Architectural Mesh & Geometry',
+          badge: 'Specialized 3D',
+          logo: '/assets/software/blender-logo.png',
         },
       ],
     },
     {
-      id: 'communication',
-      code: '04',
-      title: 'Communication & Collaboration',
-      shortName: 'Communication',
-      scopeSummary: 'Contractor coordination, video conferencing & formal RFI records',
-      icon: MessageSquare,
+      id: 'pm',
+      code: '03',
+      title: 'Project Management & Tracking',
+      shortName: 'Project Mgmt',
+      scopeSummary: 'Milestone tracking, procurement scheduling & team alignment',
+      icon: FolderKanban,
       tools: [
         {
-          name: 'Zoom',
-          role: 'Video Conferences & Briefs',
-          badge: 'Screen Shares',
-          logo: '/assets/software/zoom-logo.svg',
+          name: 'MS Project',
+          role: 'Critical Path & Gantt Scheduling',
+          badge: 'Timeline Control',
+          logo: '/assets/software/msproject-logo.png',
         },
         {
-          name: 'Google Meet',
-          role: 'Client & Virtual Meetings',
-          badge: 'Team Syncs',
-          logo: '/assets/software/meet-logo.svg',
+          name: 'ClickUp',
+          role: 'Task Delegation & Estimating Backlog',
+          badge: 'Team Coordination',
+          logo: '/assets/software/clickup-logo.png',
         },
         {
-          name: 'Microsoft Teams',
-          role: 'Contractor & Team Hub',
-          badge: 'Enterprise Collab',
-          logo: '/assets/software/teams-logo.svg',
+          name: 'Notion',
+          role: 'Knowledge Base & Scope Documentation',
+          badge: 'SOP Repository',
+          logo: '/assets/software/notion-logo.png',
         },
         {
-          name: 'WhatsApp',
-          role: 'Direct Messaging & Site Comms',
-          badge: 'Field Comms',
-          logo: '/assets/software/whatsapp-logo.svg',
-        },
-        {
-          name: 'Gmail',
-          role: 'Official Correspondence & RFIs',
-          badge: 'Tender Submissions',
-          logo: '/assets/software/gmail-logo.svg',
+          name: 'Slack',
+          role: 'Real-Time Contractor & Team Comms',
+          badge: 'Async Channels',
+          logo: '/assets/software/slack-logo.png',
         },
       ],
     },
     {
-      id: 'productivity',
-      code: '05',
-      title: 'Documentation & Productivity',
-      shortName: 'Productivity',
-      scopeSummary: 'Technical specifications, presentation decks, cloud archives & schedules',
+      id: 'docs',
+      code: '04',
+      title: 'Coordination & Handoff',
+      shortName: 'Coordination',
+      scopeSummary: 'Client presentation, PDF flattening & audit reporting',
       icon: FileText,
       tools: [
         {
-          name: 'Microsoft Word',
-          role: 'Technical Specs & Contracts',
-          badge: 'Specification Docs',
-          logo: '/assets/software/word-logo.svg',
+          name: 'Adobe Acrobat Pro',
+          role: 'PDF Flattening & Security Audits',
+          badge: 'Package Delivery',
+          logo: '/assets/software/adobe-logo.png',
         },
         {
-          name: 'PowerPoint',
-          role: 'Tender & Client Presentations',
-          badge: 'Executive Decks',
-          logo: '/assets/software/powerpoint-logo.svg',
+          name: 'Google Workspace',
+          role: 'Live Collaborative Estimating Sheets',
+          badge: 'Cloud Sync',
+          logo: '/assets/software/google-workspace-logo.png',
         },
         {
-          name: 'Google Drive',
-          role: 'Cloud Archive & File Vault',
-          badge: 'Permission Control',
-          logo: '/assets/software/drive-logo.svg',
-        },
-        {
-          name: 'Google Calendar',
-          role: 'Tender Deadlines & Milestones',
-          badge: 'Bid Milestones',
-          logo: '/assets/software/calendar-logo.svg',
-        },
-        {
-          name: 'Canva',
-          role: 'Visual Reports & Collateral',
-          badge: 'Graphic Layouts',
-          logo: '/assets/software/canva-logo.svg',
-        },
-      ],
-    },
-    {
-      id: 'hobbies',
-      code: '06',
-      title: 'Hobbies & Creative Media',
-      shortName: 'Hobbies & Media',
-      scopeSummary: 'Video editing, multi-track color grading, visual branding & AI agents',
-      icon: Sparkles,
-      tools: [
-        {
-          name: 'Adobe Premiere Pro',
-          role: 'Video Editing & Timelines',
-          badge: 'Post-Production',
-          logo: '/assets/software/premiere-logo.svg',
-        },
-        {
-          name: 'DaVinci Resolve',
-          role: 'Color Grading & Post-Production',
-          badge: 'Color Science',
-          logo: '/assets/software/davinci-logo.svg',
-        },
-        {
-          name: 'Canva',
-          role: 'Graphic Layouts & Creative Design',
-          badge: 'Visual Identity',
-          logo: '/assets/software/canva-logo.svg',
-        },
-        {
-          name: 'AI Tools & Agents',
-          role: 'Prompting & Workflow Automation',
-          badge: 'Efficiency Multipliers',
-          logo: '/assets/software/ai-tools-logo.svg',
+          name: 'Canva Pro',
+          role: 'Visual Cover Sheets & Proposals',
+          badge: 'Client Handoff',
+          logo: '/assets/software/canva-logo.png',
         },
       ],
     },
@@ -237,426 +177,411 @@ export const ToolsAndMethodologySection: React.FC = () => {
   const methodologySteps: MethodologyStep[] = [
     {
       number: '01',
-      title: 'Review & Verify Documents',
-      shortDesc: 'Verify drawing registers, sheet revisions, scale bars, and scope completeness before measuring.',
+      title: 'Drawing Receipt & Scope Verification',
+      shortDesc: 'Log all sheets, compare revisions, and flag missing callouts.',
       details: [
-        'Check sheet revisions, addenda, and drawing issue registers.',
-        'Verify drawing scale bars and dimension consistency across plan views.',
-        'Review general notes, discipline legends, and trade boundary demarcations.',
+        'Establish drawing register and cross-check architectural vs structural revisions.',
+        'Catalog tender scope boundaries and identify unmeasured trade interfaces.',
+        'Document tender qualifications and client specifications into project record.',
       ],
     },
     {
       number: '02',
-      title: 'Read & Interpret Plans, Specifications & Scope',
-      shortDesc: 'Dissect architectural and structural drawings, trade schedules, and technical specifications.',
+      title: 'Scale Verification & Calibration',
+      shortDesc: 'Calibrate every sheet against known dimensions before measuring.',
       details: [
-        'Cross-reference plan views against sectional cuts, elevations, and detail drawings.',
-        'Examine door, window, finish, and fixture schedule tables.',
-        'Extract project-specific specification clauses and mandatory material requirements.',
+        'Verify door openings and grid dimensions in PlanSwift or Bluebeam Revu.',
+        'Calibrate individual sheets separately to prevent non-uniform scaling errors.',
+        'Document scale confirmation in evidence index before any polygon is drawn.',
       ],
     },
     {
       number: '03',
-      title: 'Identify Gaps, Conflicts & Clarifications',
-      shortDesc: 'Log discrepancies, missing details, or schedule contradictions into an itemized RFI tracker.',
+      title: 'Trade-by-Trade Digital Take-Off',
+      shortDesc: 'Color-coded digital polygons with exact measurement types.',
       details: [
-        'Identify schedule contradictions (e.g. plan callouts vs schedule note sizes).',
-        'Flag unannotated assemblies or ambiguous trade interfaces.',
-        'Document clear, actionable Requests for Information (RFIs) with sheet references.',
+        'Partition measurements into distinct subject layers (Landscape, Doors, Finishes, Roof).',
+        'Capture net area, gross area, perimeter lengths, and discrete unit counts.',
+        'Export structured markups summary with unique IDs for spreadsheet lineage.',
       ],
     },
     {
       number: '04',
-      title: 'Establish Bid Basis & Take-Off Plan',
-      shortDesc: 'Define scale calibrations, naming conventions, waste factors, and measurement layer structures.',
+      title: 'RFI Log & Precon Clarifications',
+      shortDesc: 'Document discrepancies and missing callouts before pricing.',
       details: [
-        'Calibrate digital measuring tools against verified sheet dimensions.',
-        'Set up standardized trade layers, color codes, and subject markups.',
-        'Determine standard waste factors and pitch multipliers for complex geometries.',
+        'Formulate itemized Request for Information (RFI) for contractor review.',
+        'Highlight drawing ambiguities, conflicting notes, and schedule mismatches.',
+        'Attach plan callout snippets to accelerate client design resolution.',
       ],
     },
     {
       number: '05',
-      title: 'Perform Quantity Take-Offs',
-      shortDesc: 'Execute systematic count, area, linear, and perimeter measurements using calibrated tools.',
+      title: 'Calculation Lineage & Formula Audit',
+      shortDesc: 'Every formula traceable to measured plan polygons.',
       details: [
-        'Measure floor, wall, ceiling, landscape, and roofing areas.',
-        'Execute itemized counts for fixtures, doors, windows, and assemblies.',
-        'Capture linear cornices, skirtings, kerbs, and perimeter wall lengths.',
+        'Calculate roof pitch multipliers and perimeter allowances with documented formulas.',
+        'Apply trade-standard waste factors transparently without hiding constants.',
+        'Establish direct formula lineage from digital takeoff values to pricing sheets.',
       ],
     },
     {
       number: '06',
-      title: 'Build BOQ & Estimating Structure',
-      shortDesc: 'Structure measurements into trade-by-trade Bill of Quantities with standardized descriptions and units.',
+      title: 'Bill of Quantities (BOQ) Assembly',
+      shortDesc: 'Structured trade packages formatted to standard CSI/MasterFormat.',
       details: [
-        'Organize line items by CSI or standard trade breakdown codes.',
-        'Assign precise units (m², m³, linear meters, counts, items).',
-        'Incorporate unit pricing, material rates, and labor allowances where applicable.',
+        'Compile trade-by-trade BOQ with clear measurement units (m², m³, linear, count).',
+        'Incorporate itemized material breakdowns, equipment allowances, and labor rates.',
+        'Include summary sheets with subtotal rollups and contingency reserves.',
       ],
     },
     {
       number: '07',
-      title: 'Develop, Check & Reconcile the Estimate',
-      shortDesc: 'Perform mathematical checks, cross-reconcile take-off totals to BOQ, and verify formula integrity.',
+      title: 'Quality Control Reconciliation Matrix',
+      shortDesc: 'Zero-variance reconciliation between markups and final BOQ.',
       details: [
-        'Audit spreadsheet formula lineage from source measurement to total amount.',
-        'Reconcile raw take-off summaries against BOQ line item totals.',
-        'Conduct cross-check reviews to catch transposition or omission errors.',
+        'Reconcile raw markup polygon sums directly against final BOQ line quantities.',
+        'Perform perimeter-to-area logic checks to verify geometric consistency.',
+        'Document QA approval checklist with sign-off date and verified status.',
       ],
     },
     {
       number: '08',
-      title: 'Tender / Bid Preparation & Final Review',
-      shortDesc: 'Compile a clear, review-ready package including BOQ, RFI summary, QC matrix, and audit trails.',
+      title: 'Audit Package & Deliverable Handoff',
+      shortDesc: 'Flattened PDFs, editable Excel workbooks, and evidence index.',
       details: [
-        'Assemble presentation-ready PDF deliverables and review-ready workbooks.',
-        'Include qualification notes, documented assumptions, and RFI summaries.',
-        'Ensure direct CSV traceability from plan markup to pricing lines.',
+        'Package marked-up PDFs, editable Excel BOQs, and CSV traceability files.',
+        'Provide drawing register, documented qualifications, and RFI response tracking.',
+        'Deliver a review-ready handoff package ready for immediate client tender submission.',
       ],
     },
   ];
 
   return (
-    <section id="methodology" className="py-20 sm:py-28 bg-transparent border-t border-b border-black/[0.06] dark:border-white/[0.08] relative scroll-mt-20">
-      {/* Fallback Anchors for Direct Navigation */}
-      <div id="tools" className="absolute -top-24 pointer-events-none" />
-      <div id="process" className="absolute -top-24 pointer-events-none" />
-      <div id="methodology-process" className="absolute -top-24 pointer-events-none" />
-      <div id="estimating-methodology" className="absolute -top-24 pointer-events-none" />
-      
-      {/* Background Ambient Neutral Light */}
-      <div className="absolute top-1/2 right-1/3 -translate-y-1/2 w-[600px] h-[500px] bg-gradient-to-tr from-black/[0.02] dark:from-white/[0.02] to-transparent blur-3xl pointer-events-none -z-10" />
+    <section
+      id="methodology"
+      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+    >
+      {/* Background CAD Grid */}
+      <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />
+      <div className="absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-radial from-[#FF5600]/[0.03] dark:from-[#FF5600]/[0.05] to-transparent blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14">
-        
-        {/* Section Header */}
-        <div className="flex flex-col gap-2 max-w-2xl mb-12 sm:mb-16">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-apple-mono text-[#CC8400] uppercase tracking-widest font-semibold">
-              03 / Methodology & Process
-            </span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] leading-tight font-apple-display">
-            Working tools used with purpose & a disciplined approach.
-          </h2>
-          <p className="text-sm sm:text-base text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-apple-text">
-            Distinguishing commercial software experience from demonstration workflows, alongside an 8-stage estimating methodology.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+      <div className="max-w-7xl w-full mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* LEFT: Established Working Tools & Software Stack */}
+          {/* LEFT COLUMN: Section Kicker, Heading & Navigation Switcher */}
           <div className="lg:col-span-5 flex flex-col gap-5">
             
-            {/* Architectural Workstation Header & View Switcher */}
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-0.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#CC8400] animate-pulse" />
-                  <h3 className="text-xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display tracking-tight">
-                    Software Stack
-                  </h3>
-                </div>
-                <span className="text-xs font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E]">
-                  6 Specialized Disciplines · 20 Software Tools
+            {/* Christoph Nagel Section Kicker */}
+            <div className="flex items-center gap-3">
+              <span className="section-kicker">
+                <span className="kicker-badge">03</span>
+                <span>TOOLS & METHODOLOGY · PRECISION PROTOCOL</span>
+              </span>
+            </div>
+
+            {/* Bold Impact Heading */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-anton text-[#1A1A1A] dark:text-[#F4F4F1] leading-[1.02] tracking-tight uppercase">
+              STRUCTURED PROTOCOL. <span className="text-[#FF5600]">ZERO-VARIANCE</span> TAKE-OFFS.
+            </h2>
+
+            <p className="text-xs sm:text-sm text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-manrope">
+              Every estimate follows an 8-stage verification pipeline—calibrating plans, isolating trades, documenting RFIs, and reconciling take-offs with zero variance.
+            </p>
+
+            {/* 3 Main Views Switcher with Clear Interactive Invitation */}
+            <div className="flex flex-col gap-2 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[10px] font-space text-[#FF5600] uppercase font-bold tracking-wider">
+                  <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
+                  <span>Click Tabs to Switch Framework Context:</span>
+                </span>
+                <span className="text-[10px] font-manrope text-[#7A7A7A] dark:text-[#8E8E8E]">
+                  3 Frameworks
                 </span>
               </div>
 
-              {/* View Toggle: Deck vs Matrix */}
-              <div className="inline-flex p-1 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07]">
+              <div className="flex flex-col gap-2 p-2 rounded-2xl bg-black/[0.04] dark:bg-white/[0.06] border-2 border-[#FF5600]/30 dark:border-[#FF5600]/40 shadow-inner">
                 <button
                   type="button"
-                  onClick={() => setViewMode('deck')}
-                  title="Interactive Discipline Deck (Zero Scroll)"
-                  className={`px-2.5 py-1 rounded-lg text-xs font-apple-text font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
-                    viewMode === 'deck'
-                      ? 'bg-[#CC8400] text-white shadow-xs'
-                      : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-white'
+                  onClick={() => setActiveTab('methodology')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-manrope font-bold transition-all cursor-pointer text-left flex items-center justify-between ${
+                    activeTab === 'methodology'
+                      ? 'bg-[#FF5600] text-white shadow-md'
+                      : 'text-[#4A4A4A] dark:text-[#B0B0B0] hover:text-black dark:hover:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.05]'
                   }`}
                 >
-                  <SlidersHorizontal className="w-3 h-3" />
-                  <span className="hidden sm:inline">Discipline Deck</span>
+                  <div className="flex flex-col">
+                    <span className="font-bold">01 · 8-Stage Estimating Flow</span>
+                    <span className={`text-[10px] font-space ${activeTab === 'methodology' ? 'text-white/90' : 'text-[#FF5600]'}`}>
+                      {activeTab === 'methodology' ? '✓ Currently Viewing (8 Steps)' : '👉 Click to View Protocol Steps'}
+                    </span>
+                  </div>
+                  <ChevronRight className={`w-4 h-4 ${activeTab === 'methodology' ? 'text-white' : 'text-[#FF5600]'}`} />
                 </button>
+
                 <button
                   type="button"
-                  onClick={() => setViewMode('matrix')}
-                  title="Master Matrix (All 6 at once)"
-                  className={`px-2.5 py-1 rounded-lg text-xs font-apple-text font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
-                    viewMode === 'matrix'
-                      ? 'bg-[#CC8400] text-white shadow-xs'
-                      : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-white'
+                  onClick={() => setActiveTab('software')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-manrope font-bold transition-all cursor-pointer text-left flex items-center justify-between ${
+                    activeTab === 'software'
+                      ? 'bg-[#FF5600] text-white shadow-md'
+                      : 'text-[#4A4A4A] dark:text-[#B0B0B0] hover:text-black dark:hover:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.05]'
                   }`}
                 >
-                  <Grid className="w-3 h-3" />
-                  <span className="hidden sm:inline">Master Matrix</span>
+                  <div className="flex flex-col">
+                    <span className="font-bold">02 · Software Rig (4 Disciplines)</span>
+                    <span className={`text-[10px] font-space ${activeTab === 'software' ? 'text-white/90' : 'text-[#FF5600]'}`}>
+                      {activeTab === 'software' ? '✓ Currently Viewing (15 Tools)' : '👉 Click to View 4 Tool Disciplines'}
+                    </span>
+                  </div>
+                  <ChevronRight className={`w-4 h-4 ${activeTab === 'software' ? 'text-white' : 'text-[#FF5600]'}`} />
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('comparison')}
+                  className={`py-2.5 px-3 rounded-xl text-xs font-manrope font-bold transition-all cursor-pointer text-left flex items-center justify-between ${
+                    activeTab === 'comparison'
+                      ? 'bg-[#FF5600] text-white shadow-md'
+                      : 'text-[#4A4A4A] dark:text-[#B0B0B0] hover:text-black dark:hover:text-white hover:bg-black/[0.03] dark:hover:bg-white/[0.05]'
+                  }`}
+                >
+                  <div className="flex flex-col">
+                    <span className="font-bold">03 · PlanSwift vs Bluebeam Matrix</span>
+                    <span className={`text-[10px] font-space ${activeTab === 'comparison' ? 'text-white/90' : 'text-[#FF5600]'}`}>
+                      {activeTab === 'comparison' ? '✓ Currently Viewing (Comparison)' : '👉 Click to View Feature Matrix'}
+                    </span>
+                  </div>
+                  <ChevronRight className={`w-4 h-4 ${activeTab === 'comparison' ? 'text-white' : 'text-[#FF5600]'}`} />
+                </button>
+              </div>
+
+              {/* Exploration Hint */}
+              <div className="p-3 rounded-xl bg-[#FF5600]/[0.06] border border-[#FF5600]/20 flex items-start gap-2.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5600] flex-shrink-0 mt-0.5" />
+                <p className="text-[11px] font-manrope text-[#5A5A5A] dark:text-[#B0B0B0] leading-relaxed">
+                  <strong className="text-[#1A1A1A] dark:text-[#F4F4F1]">Interactive Explorer:</strong> Click through all 3 tabs to understand the QA pipeline, the software stack across disciplines, and why Bluebeam/PlanSwift are chosen for specific scopes.
+                </p>
               </div>
             </div>
 
-            {viewMode === 'deck' ? (
-              <div className="flex flex-col gap-4">
-                
-                {/* 6-Discipline Architectural Selector Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {softwareCategories.map((cat, idx) => {
-                    const isSelected = activeDisciplineIndex === idx;
-                    const IconComp = cat.icon;
-                    return (
+          </div>
+
+          {/* RIGHT COLUMN: Interactive Scrollable Content Panel (Christoph Nagel .content-panel) */}
+          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-3 panel-scrollbar flex flex-col gap-3">
+            
+            {/* VIEW 1: 8-Stage Estimating Flow */}
+            {activeTab === 'methodology' && (
+              <div className="flex flex-col gap-3 animate-subtle-fade-in">
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                    8-Stage Quality Control Protocol
+                  </span>
+                  <span className="text-[10px] font-space text-[#FF5600] uppercase font-semibold">
+                    Step-by-Step Rigor
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2.5">
+                  {methodologySteps.map((step) => (
+                    <div
+                      key={step.number}
+                      className="p-3.5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08] hover:border-[#FF5600]/40 transition-all"
+                    >
+                      <div className="flex items-center gap-2.5 mb-1.5">
+                        <span className="font-space text-xs font-bold text-[#FF5600] px-2 py-0.5 rounded-md bg-[#FF5600]/10 border border-[#FF5600]/25">
+                          {step.number}
+                        </span>
+                        <h4 className="text-xs sm:text-sm font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                          {step.title}
+                        </h4>
+                      </div>
+                      <p className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope mb-2">
+                        {step.shortDesc}
+                      </p>
+                      <ul className="flex flex-col gap-1 pt-1.5 border-t border-black/[0.04] dark:border-white/[0.05]">
+                        {step.details.map((detail, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-1.5 text-[11px] text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope"
+                          >
+                            <Check className="w-3 h-3 text-[#FF5600] flex-shrink-0 mt-0.5" />
+                            <span>{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 2: Software Rig (4 Disciplines) */}
+            {activeTab === 'software' && (
+              <div className="flex flex-col gap-3.5 animate-subtle-fade-in">
+                {/* 4 Discipline Tabs with Invitation */}
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
+                    <span>Click Discipline Tabs to Switch Toolset:</span>
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08]">
+                    {softwareCategories.map((cat, idx) => (
                       <button
                         key={cat.id}
                         type="button"
                         onClick={() => setActiveDisciplineIndex(idx)}
-                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 relative ${
-                          isSelected
-                            ? 'bg-[#CC8400]/10 border-[#CC8400] dark:border-[#CC8400] shadow-xs'
-                            : 'bg-black/[0.02] dark:bg-white/[0.03] border-black/[0.05] dark:border-white/[0.07] hover:border-[#CC8400]/40'
+                        className={`py-2 px-2 rounded-xl text-[11px] font-manrope font-bold transition-all cursor-pointer text-center truncate ${
+                          activeDisciplineIndex === idx
+                            ? 'bg-[#FF5600] text-white shadow-xs'
+                            : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-black dark:hover:text-white hover:bg-black/[0.02] dark:hover:bg-white/[0.04]'
                         }`}
                       >
-                        <div className="flex items-center justify-between w-full">
-                          <span className={`text-[10px] font-apple-mono font-bold ${
-                            isSelected ? 'text-[#CC8400]' : 'text-[#4A4A4A] dark:text-[#9E9E9E]'
-                          }`}>
-                            {cat.code}
-                          </span>
-                          <span className="text-[10px] font-apple-mono px-1.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.05] text-[#4A4A4A] dark:text-[#9E9E9E]">
-                            {cat.tools.length}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
-                            isSelected 
-                              ? 'bg-[#CC8400] text-white' 
-                              : 'bg-black/[0.04] dark:bg-white/[0.06] text-[#4A4A4A] dark:text-[#9E9E9E]'
-                          }`}>
-                            <IconComp className="w-3.5 h-3.5" />
-                          </div>
-                          <span className={`text-xs font-apple-display font-semibold truncate ${
-                            isSelected ? 'text-[#1A1A1A] dark:text-white' : 'text-[#4A4A4A] dark:text-[#9E9E9E]'
-                          }`}>
-                            {cat.shortName}
-                          </span>
-                        </div>
-                        {isSelected && (
-                          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3 h-1 bg-[#CC8400] rounded-full" />
-                        )}
+                        <span>{cat.shortName}</span>
+                        {activeDisciplineIndex === idx && <span className="text-[9px] block text-white/80">Active</span>}
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
 
-                {/* Active Showcase Card */}
+                {/* Selected Discipline Tools */}
                 {(() => {
-                  const activeCat = softwareCategories[activeDisciplineIndex];
-                  const ActiveIcon = activeCat.icon;
+                  const currentCategory = softwareCategories[activeDisciplineIndex];
+                  const Icon = currentCategory.icon;
                   return (
-                    <div className="p-5 rounded-2xl liquid-card border border-black/[0.06] dark:border-white/[0.08] shadow-sm flex flex-col gap-4">
-                      
-                      {/* Active Discipline Header */}
-                      <div className="flex flex-col gap-1 pb-3 border-b border-black/[0.05] dark:border-white/[0.06]">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-apple-mono text-[#CC8400] font-bold px-2 py-0.5 rounded-full bg-[#CC8400]/10 border border-[#CC8400]/25">
-                              Discipline {activeCat.code}
-                            </span>
-                            <span className="text-xs font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E]">
-                              {activeCat.tools.length} Tools Included
-                            </span>
-                          </div>
-                          <div className="w-8 h-8 rounded-xl bg-black/[0.03] dark:bg-white/[0.06] border border-black/[0.05] dark:border-white/[0.08] flex items-center justify-center text-[#CC8400]">
-                            <ActiveIcon className="w-4 h-4" />
-                          </div>
+                    <div className="flex flex-col gap-3">
+                      <div className="p-3.5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                        <div className="flex items-center gap-2">
+                          <Icon className="w-4 h-4 text-[#FF5600]" />
+                          <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope">
+                            {currentCategory.title}
+                          </h4>
                         </div>
-
-                        <h4 className="text-base sm:text-lg font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display mt-1">
-                          {activeCat.title}
-                        </h4>
-                        <p className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-apple-text">
-                          {activeCat.scopeSummary}
+                        <p className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope mt-1">
+                          {currentCategory.scopeSummary}
                         </p>
                       </div>
 
-                      {/* Active Tools Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        {activeCat.tools.map((tool) => (
+                        {currentCategory.tools.map((tool) => (
                           <div
                             key={tool.name}
-                            className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/[0.06] hover:border-[#FF5600]/30 transition-all flex items-start gap-3 group"
+                            className="p-3 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between gap-2.5"
                           >
-                            <img
-                              src={tool.logo}
-                              alt={tool.name}
-                              className="w-8 h-8 object-contain rounded-lg bg-white dark:bg-black/40 p-1 border border-black/[0.05] dark:border-white/[0.08] shadow-2xs shrink-0 group-hover:scale-105 transition-transform"
-                            />
-                            <div className="flex flex-col min-w-0">
-                              <span className="text-xs font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-text truncate">
-                                {tool.name}
-                              </span>
-                              <span className="text-[11px] text-[#4A4A4A] dark:text-[#9E9E9E] font-apple-text line-clamp-1">
-                                {tool.role}
-                              </span>
-                              {tool.badge && (
-                                <span className="mt-1 inline-flex items-center text-[9px] font-apple-mono px-1.5 py-0.5 rounded bg-black/[0.03] dark:bg-white/[0.05] text-[#CC8400] w-fit border border-black/[0.03] dark:border-white/[0.05]">
-                                  {tool.badge}
-                                </span>
-                              )}
+                            <div className="flex items-center gap-2.5">
+                              <img
+                                src={tool.logo}
+                                alt={tool.name}
+                                className="w-8 h-8 rounded-lg object-contain bg-white p-1 border border-black/10 shadow-2xs"
+                                onError={(e) => {
+                                  // Fallback icon if logo image not found
+                                  (e.target as HTMLElement).style.display = 'none';
+                                }}
+                              />
+                              <div>
+                                <div className="text-xs font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-manrope">
+                                  {tool.name}
+                                </div>
+                                <div className="text-[10px] text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope">
+                                  {tool.role}
+                                </div>
+                              </div>
                             </div>
+
+                            {tool.badge && (
+                              <span className="text-[9px] font-space text-[#FF5600] bg-[#FF5600]/10 border border-[#FF5600]/25 px-2 py-0.5 rounded-md whitespace-nowrap">
+                                {tool.badge}
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>
-
-                      {/* Stepper Navigation Footer */}
-                      <div className="flex items-center justify-between pt-3 border-t border-black/[0.04] dark:border-white/[0.05] text-xs font-apple-text text-[#4A4A4A] dark:text-[#9E9E9E]">
-                        <button
-                          type="button"
-                          onClick={() => setActiveDisciplineIndex((prev) => (prev === 0 ? softwareCategories.length - 1 : prev - 1))}
-                          className="flex items-center gap-1 hover:text-[#CC8400] transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.04]"
-                        >
-                          <ChevronLeft className="w-3.5 h-3.5" />
-                          <span>Prev</span>
-                        </button>
-                        
-                        <span className="font-apple-mono text-[11px]">
-                          {activeDisciplineIndex + 1} of {softwareCategories.length} Disciplines
-                        </span>
-
-                        <button
-                          type="button"
-                          onClick={() => setActiveDisciplineIndex((prev) => (prev === softwareCategories.length - 1 ? 0 : prev + 1))}
-                          className="flex items-center gap-1 hover:text-[#CC8400] transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.04]"
-                        >
-                          <span>Next</span>
-                          <ChevronRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-
                     </div>
                   );
                 })()}
-
               </div>
-            ) : (
-              /* Master Matrix (Compact 6-discipline overview) */
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {softwareCategories.map((cat) => {
-                  const IconComp = cat.icon;
-                  return (
-                    <div
-                      key={cat.id}
-                      className="p-3.5 rounded-2xl liquid-card border border-black/[0.06] dark:border-white/[0.08] flex flex-col gap-2.5 shadow-2xs hover:border-[#CC8400]/40 transition-all cursor-pointer"
-                      onClick={() => {
-                        setActiveDisciplineIndex(softwareCategories.findIndex(c => c.id === cat.id));
-                        setViewMode('deck');
-                      }}
-                    >
-                      <div className="flex items-center justify-between pb-1.5 border-b border-black/[0.04] dark:border-white/[0.05]">
-                        <div className="flex items-center gap-2">
-                          <div className="w-5 h-5 rounded-md bg-black/[0.03] dark:bg-white/[0.05] flex items-center justify-center text-[#CC8400]">
-                            <IconComp className="w-3 h-3" />
-                          </div>
-                          <span className="text-xs font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display">
-                            {cat.shortName}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-apple-mono text-[#CC8400] font-semibold">
-                          {cat.tools.length} Tools
-                        </span>
-                      </div>
+            )}
 
-                      <div className="flex flex-col gap-1.5">
-                        {cat.tools.map((t) => (
-                          <div key={t.name} className="flex items-center gap-2 text-xs font-apple-text text-[#1A1A1A] dark:text-[#E0E0E0]">
-                            <img src={t.logo} alt={t.name} className="w-4 h-4 object-contain" />
-                            <span className="font-medium truncate">{t.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
+            {/* VIEW 3: PlanSwift vs Bluebeam Comparison Matrix */}
+            {activeTab === 'comparison' && (
+              <div className="flex flex-col gap-3 animate-subtle-fade-in">
+                <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                  <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-[#F4F4F1] font-manrope mb-1">
+                    PlanSwift vs. Bluebeam Revu in My Estimating Rig
+                  </h4>
+                  <p className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope leading-relaxed">
+                    Both tools serve complementary roles in my workflow. PlanSwift excels in high-speed commercial assembly take-offs, while Bluebeam is the gold standard for vectorized PDF drawing markups, RFI callouts, and client audit trails.
+                  </p>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs font-manrope border-collapse border border-black/[0.06] dark:border-white/[0.08] rounded-xl overflow-hidden">
+                    <thead className="bg-black/[0.04] dark:bg-white/[0.06] text-[#1A1A1A] dark:text-[#F4F4F1] font-space">
+                      <tr>
+                        <th className="p-2.5 border-b border-black/[0.06] dark:border-white/[0.08]">Workflow Criterion</th>
+                        <th className="p-2.5 border-b border-black/[0.06] dark:border-white/[0.08] text-[#FF5600]">PlanSwift</th>
+                        <th className="p-2.5 border-b border-black/[0.06] dark:border-white/[0.08] text-[#FF5600]">Bluebeam Revu</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-black/[0.04] dark:divide-white/[0.05] text-[#4A4A4A] dark:text-[#9E9E9E]">
+                      <tr>
+                        <td className="p-2.5 font-bold text-[#1A1A1A] dark:text-[#E0E0E0]">Primary Application</td>
+                        <td className="p-2.5">Assembly & multi-item formula take-offs (3 yrs at DeepBluee)</td>
+                        <td className="p-2.5">Drawing calibration, vector polygon markups & audit handoff</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2.5 font-bold text-[#1A1A1A] dark:text-[#E0E0E0]">Plan Calibration</td>
+                        <td className="p-2.5">X and Y axis calibration across architectural sheets</td>
+                        <td className="p-2.5">Vector dimension snap & multi-page calibration checks</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2.5 font-bold text-[#1A1A1A] dark:text-[#E0E0E0]">Markups & Visuals</td>
+                        <td className="p-2.5">High-speed parts breakdown and area polygons</td>
+                        <td className="p-2.5">Color-coded visual layers, cloud callouts & RFI stamps</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2.5 font-bold text-[#1A1A1A] dark:text-[#E0E0E0]">Spreadsheet Export</td>
+                        <td className="p-2.5">Direct Excel integration via Live Links & templates</td>
+                        <td className="p-2.5">CSV Markups List export with ID traceability to Excel BOQ</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2.5 font-bold text-[#1A1A1A] dark:text-[#E0E0E0]">Quality Control</td>
+                        <td className="p-2.5">Internal itemized audit tree verification</td>
+                        <td className="p-2.5">Reconciliation matrix comparing take-off sums to final BOQ</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* In-Content Navigation Invitation to Next Section */}
+            {onNavigateSection && (
+              <div className="mt-2 p-4 rounded-2xl bg-gradient-to-r from-[#FF5600]/10 to-transparent border border-[#FF5600]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider block">
+                    Completed Exploring Methodology?
+                  </span>
+                  <p className="text-xs font-manrope text-[#3A3A3A] dark:text-[#E0E0E0] font-medium">
+                    Next: Inspect the interactive 6-phase drawing audit pack & high-res PDFs.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onNavigateSection(4)}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FF5600] hover:bg-[#E04C00] text-white font-manrope font-bold text-xs transition-all shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
+                >
+                  <span>Inspect Proof of Work</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
             )}
 
           </div>
 
-          {/* RIGHT: How I Approach an Estimating Assignment */}
-          <div className="lg:col-span-7 flex flex-col gap-6 relative">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display">
-                How I approach an estimating assignment
-              </h3>
-              <span className="text-xs font-apple-mono text-[#CC8400] font-semibold">
-                8-Stage Methodology
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-2.5">
-              {methodologySteps.map((step, idx) => {
-                const isOpen = activeAccordion === idx;
-                return (
-                  <div
-                    key={step.number}
-                    className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
-                      isOpen
-                        ? 'liquid-card border-[#FF5600]/50 dark:border-[#FF5600]/50 shadow-md ring-1 ring-[#FF5600]/20'
-                        : 'liquid-card border-black/[0.06] dark:border-white/[0.08] hover:border-[#CC8400]/40'
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setActiveAccordion(isOpen ? null : idx)}
-                      className="w-full p-4 sm:p-5 flex items-start justify-between gap-4 text-left cursor-pointer select-none"
-                    >
-                      <div className="flex items-start gap-3.5">
-                        <span className={`text-xs font-apple-mono px-2.5 py-0.5 rounded-full shadow-xs ${
-                          isOpen ? 'bg-[#FF5600] text-white font-bold' : 'bg-black/[0.05] dark:bg-white/[0.08] text-[#4A4A4A] dark:text-[#9E9E9E] font-bold'
-                        }`}>
-                          {step.number}
-                        </span>
-                        <div className="flex flex-col">
-                          <span className={`text-sm sm:text-base font-semibold font-apple-display ${
-                            isOpen ? 'text-[#1A1A1A] dark:text-[#E0E0E0]' : 'text-[#1A1A1A]/90 dark:text-[#E0E0E0]/90'
-                          }`}>
-                            {step.title}
-                          </span>
-                          <span className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] mt-0.5 leading-relaxed font-apple-text">
-                            {step.shortDesc}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className={`p-1.5 rounded-xl flex-shrink-0 transition-colors ${
-                        isOpen ? 'bg-[#FF5600]/15 text-[#FF5600]' : 'text-[#6B7280] dark:text-[#737373]'
-                      }`}>
-                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                      </div>
-                    </button>
-
-                    {/* Accordion Content */}
-                    {isOpen && (
-                      <div className="px-5 pb-5 pt-1 border-t border-black/[0.05] dark:border-white/[0.06] bg-black/[0.015] dark:bg-white/[0.02]">
-                        <ul className="flex flex-col gap-2.5 pt-3">
-                          {step.details.map((detail, dIdx) => (
-                            <li key={dIdx} className="flex items-start gap-2.5 text-xs text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-apple-text">
-                              <Check className="w-3.5 h-3.5 text-[#CC8400] flex-shrink-0 mt-0.5" />
-                              <span>{detail}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-
         </div>
-
       </div>
     </section>
   );
 };
-

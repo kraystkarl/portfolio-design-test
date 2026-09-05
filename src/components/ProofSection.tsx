@@ -7,9 +7,13 @@ import {
   ShieldCheck,
   Maximize2,
   FileText,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Check,
+  MousePointerClick,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
-import { ProofStepItem, ProofImage } from '../types';
+import { ProofStepItem } from '../types';
 import { PdfCanvasViewer } from './PdfCanvasViewer';
 
 interface ProofSectionProps {
@@ -21,15 +25,13 @@ interface ProofSectionProps {
     isPdf?: boolean;
     pages?: number;
   }) => void;
+  onNavigateSection?: (index: number) => void;
 }
 
-export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument }) => {
+export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, onNavigateSection }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [activeTakeoffSubIndex, setActiveTakeoffSubIndex] = useState(0);
 
-  // Original 6-Phase Workflow Sequence — preserved in full structure
-  // The old Excel screenshots are now replaced with the authentic PDF documents
-  // All 6 Bluebeam takeoff marked-up drawings are preserved in Step 01
   const proofSteps: ProofStepItem[] = [
     {
       id: 'step-01',
@@ -138,16 +140,8 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument })
         {
           src: '/pdfs/03_RFI_Demonstration.pdf',
           title: 'RFI Demonstration · Door Schedule Discrepancy',
-          category: 'Excel Pack · RFI Log',
-          description: 'Demonstration record (RFI-001) documenting plan queries, Bluebeam count sheet discrepancies, and documented estimator resolution.',
-          isPdf: true,
-          pages: 1,
-        },
-        {
-          src: '/pdfs/05_Review_Notes.pdf',
-          title: 'Review Notes & Scope Tracker',
-          category: 'Excel Pack · Assumptions & Scope',
-          description: 'Comprehensive quality assurance and reconciliation review notes documenting scope verification, baseline preservation, and source confirmations.',
+          category: 'Excel Pack · Preconstruction RFI',
+          description: 'Itemized formal Request for Information highlighting conflicting architectural plan callouts vs door schedule dimensions.',
           isPdf: true,
           pages: 1,
         },
@@ -156,21 +150,21 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument })
     {
       id: 'step-05',
       stepNumber: '05',
-      name: 'QC / RECONCILIATION',
+      name: 'QC',
       tool: 'Microsoft Excel',
-      title: 'Quality Control & Reconciliation (QC – Reviewed)',
-      description: 'Systematic cross-checking comparing raw Bluebeam markups against BOQ totals, verifying formula integrity, checking for omission/double-counting, and reconciling mathematical balance.',
+      title: 'Quality Control Reconciliation Matrix',
+      description: 'Side-by-side reconciliation table verifying that all raw take-off quantities match the final BOQ totals with zero variance.',
       storyContext: {
-        unclearOrGoal: 'Ensure zero mathematical errors, missed markups, or unit transposition discrepancies before final submittal.',
-        actionTaken: 'Implemented a dedicated QC reconciliation matrix comparing take-off summary totals directly against BOQ line item sums with variance checking.',
-        outcome: '100% mathematical reconciliation confirmed with verified formula audit trails.',
+        unclearOrGoal: 'Ensure no quantity was omitted, doubled, or miscalculated during the transfer from digital markup to pricing spreadsheet.',
+        actionTaken: 'Created a cross-checking reconciliation matrix comparing raw Bluebeam layer totals against final BOQ line quantities with automated variance flags.',
+        outcome: 'Zero-variance confirmation and verified audit trail before tender submission.',
       },
       images: [
         {
-          src: '/pdfs/02_QC_Reviewed.pdf',
-          title: 'QC Reviewed · Reconciliation Matrix',
-          category: 'Excel Pack · Quality Control',
-          description: 'Rigorous 13-point quality control reconciliation matrix comparing Bluebeam measurement markups against expected calculations with zero unresolved variance.',
+          src: '/pdfs/04_QC_Reconciliation.pdf',
+          title: 'QC Reconciliation Matrix · Zero Variance Audit',
+          category: 'Excel Pack · Quality Assurance',
+          description: 'Side-by-side audit matrix reconciling raw takeoff sums against final BOQ line item quantities.',
           isPdf: true,
           pages: 1,
         },
@@ -180,28 +174,20 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument })
       id: 'step-06',
       stepNumber: '06',
       name: 'TRACEABILITY',
-      tool: 'Microsoft Excel',
-      title: 'CSV Traceability & Audit Trail',
-      description: 'Direct audit link connecting every take-off markup exported from Bluebeam to the exact corresponding line item in the Excel pricing workbook.',
+      tool: 'Microsoft Excel / CSV',
+      title: 'CSV Takeoff Support & Audit Lineage',
+      description: 'Direct mapping showing how every single Bluebeam markup row maps to its corresponding row in the pricing sheet.',
       storyContext: {
-        unclearOrGoal: 'Enable an employer or lead estimator to verify any single number on the BOQ back to the exact physical markup on the plan.',
-        actionTaken: 'Exported Bluebeam markups with unique ID tags and mapped them column-by-column into the Excel CSV traceability sheet.',
-        outcome: 'Complete end-to-end transparency: Plan Markup ID → CSV Line → Quantity Calculation → BOQ Line Item.',
+        unclearOrGoal: 'Provide an unbreakable audit trail so any client or commercial director can trace every penny back to a specific vector polygon.',
+        actionTaken: 'Exported structured CSV markups data, maintaining unique Bluebeam Markup IDs and linking them directly into the Excel workbook columns.',
+        outcome: 'Complete mathematical transparency and instant auditability for every single line item in the tender.',
       },
       images: [
         {
           src: '/pdfs/06_CSV_Traceability.pdf',
-          title: 'CSV Traceability Matrix',
-          category: 'Excel Pack · Markup to BOQ Audit',
-          description: 'Direct mapping linking Bluebeam subject markup IDs, filtered rows, and formula derivations to BOQ lines with verified mathematical proof.',
-          isPdf: true,
-          pages: 1,
-        },
-        {
-          src: '/pdfs/04_Evidence_Index.pdf',
-          title: 'Evidence Index & Sheet Register',
-          category: 'Excel Pack · Drawing Register',
-          description: 'Centralized master register indexing drawing scales, area polygons, count sheets, and Colorbond roofing geometries.',
+          title: 'CSV Takeoff Support · Full Traceability Audit',
+          category: 'Excel Pack · Audit Trail',
+          description: 'Direct CSV takeoff support mapping individual Bluebeam markup IDs directly into pricing workbook columns.',
           isPdf: true,
           pages: 1,
         },
@@ -210,340 +196,299 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument })
   ];
 
   const currentStep = proofSteps[activeStepIndex];
-  const currentImages = currentStep.images;
-  const activeImage: ProofImage = currentImages[Math.min(activeTakeoffSubIndex, currentImages.length - 1)] || currentImages[0];
-  const isPdf = Boolean(activeImage.isPdf || activeImage.src.toLowerCase().endsWith('.pdf'));
+  const isTakeoffStep = activeStepIndex === 0;
 
   return (
-    <section id="proof" className="py-20 sm:py-28 bg-transparent relative scroll-mt-20">
-      {/* Background Subtle Ambient Neutral */}
-      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-bl from-black/[0.02] dark:from-white/[0.02] to-transparent blur-3xl pointer-events-none -z-10" />
+    <section
+      id="proof"
+      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+    >
+      {/* Background CAD Grid */}
+      <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />
+      <div className="absolute top-1/2 left-1/3 w-[600px] h-[400px] bg-radial from-[#FF5600]/[0.03] dark:from-[#FF5600]/[0.05] to-transparent blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14">
-        
-        {/* Section Header with Clear Demonstration Badge */}
-        <div className="flex flex-col gap-3 max-w-3xl mb-12">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-apple-mono text-[#CC8400] uppercase tracking-widest font-semibold">
-              04 / Estimating Proof of Capability
-            </span>
-            <span className="text-xs font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E]">·</span>
-            <span className="px-2.5 py-0.5 rounded-full bg-[#CC8400]/10 border border-[#CC8400]/30 text-[11px] font-apple-mono text-[#CC8400] uppercase font-semibold">
-              Current Independent Demonstration Project
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] leading-tight font-apple-display">
-            Bluebeam Revu + Excel Estimating Workflow
-          </h2>
-
-          <p className="text-sm sm:text-base text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-apple-text">
-            A complete, source-verified preconstruction walkthrough demonstrating the six essential phases of a disciplined estimating package—from plan calibration to full audit traceability.
-          </p>
-        </div>
-
-        {/* 6-Step Horizontal Progress Switcher */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-8 p-1.5 rounded-2xl liquid-card border border-black/[0.06] dark:border-white/[0.08] shadow-xs">
-          {proofSteps.map((step, idx) => {
-            const isActive = activeStepIndex === idx;
-            return (
-              <button
-                key={step.id}
-                type="button"
-                onClick={() => {
-                  setActiveStepIndex(idx);
-                  setActiveTakeoffSubIndex(0);
-                }}
-                className={`p-3 rounded-xl text-left flex flex-col gap-1 transition-all cursor-pointer select-none ${
-                  isActive
-                    ? 'liquid-card border border-[#FF5600]/40 dark:border-[#FF5600]/40 shadow-xs text-[#1A1A1A] dark:text-[#E0E0E0] ring-1 ring-[#FF5600]/10'
-                    : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-[#E0E0E0] hover:bg-black/[0.02] dark:hover:bg-white/[0.04]'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-1">
-                  <span className={`text-[10px] font-apple-mono font-bold px-1.5 py-0.5 rounded-md shrink-0 ${
-                    isActive ? 'bg-[#FF5600] text-white' : 'bg-black/[0.05] dark:bg-white/[0.08] text-[#4A4A4A] dark:text-[#9E9E9E]'
-                  }`}>
-                    {step.stepNumber}
-                  </span>
-                  <span className="text-[10px] font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] truncate text-right">
-                    {idx === 0 ? 'Bluebeam' : 'Microsoft Excel'}
-                  </span>
-                </div>
-                <span className={`text-xs font-semibold mt-1 font-apple-display line-clamp-2 leading-tight ${
-                  isActive ? 'text-[#FF5600]' : 'text-[#6B7280] dark:text-[#737373]'
-                }`}>
-                  {step.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Main Proof Display Card */}
-        <div className="rounded-3xl overflow-hidden liquid-card border border-black/[0.07] dark:border-white/[0.09] shadow-xl flex flex-col">
+      <div className="max-w-7xl w-full mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Card Top Header */}
-          <div className="px-5 py-3.5 bg-[#F7F7F8]/80 dark:bg-[#121215]/80 backdrop-blur-md border-b border-black/[0.05] dark:border-white/[0.06] flex items-center justify-between">
-            <span className="text-xs font-apple-mono uppercase tracking-wider text-[#4A4A4A] dark:text-[#9E9E9E] font-semibold">
-              Evidence Viewer
-            </span>
-            <div className="flex items-center gap-2 text-xs font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E]">
-              <span className="text-[#1A1A1A] dark:text-[#E0E0E0] font-medium">{activeImage.title}</span>
+          {/* LEFT COLUMN: Section Kicker, Headings, Highlights & Phase Selector */}
+          <div className="lg:col-span-5 flex flex-col gap-5">
+            
+            {/* Christoph Nagel Section Kicker */}
+            <div className="flex items-center gap-3">
+              <span className="section-kicker">
+                <span className="kicker-badge">04</span>
+                <span>ESTIMATING PROOF · THE 6-PHASE AUDIT PACK</span>
+              </span>
             </div>
-          </div>
 
-          <div className="p-6 sm:p-8 lg:p-10 flex flex-col gap-8">
-          
-            {/* Header of Active Step */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-black/[0.05] dark:border-white/[0.06] pb-6">
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2 font-apple-mono text-xs text-[#CC8400]">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#CC8400]/10 border border-[#CC8400]/30 font-semibold">
-                    Phase {currentStep.stepNumber} of 06
-                  </span>
-                  <span>•</span>
-                  <span className="text-[#1A1A1A] dark:text-[#E0E0E0] font-medium">{currentStep.tool}</span>
-                  {isPdf && (
-                    <>
-                      <span>•</span>
-                      <span className="text-[#4A4A4A] dark:text-[#9E9E9E]">Vector PDF Evidence</span>
-                    </>
-                  )}
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] dark:text-[#E0E0E0] font-apple-display">
-                  {currentStep.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#4A4A4A] dark:text-[#9E9E9E] max-w-3xl leading-relaxed font-apple-text">
-                  {currentStep.description}
+            {/* Bold Impact Heading */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-anton text-[#1A1A1A] dark:text-[#F4F4F1] leading-[1.02] tracking-tight uppercase">
+              INTERACTIVE PROOF & <span className="text-[#FF5600]">DRAWING INSPECTION</span>.
+            </h2>
+
+            <p className="text-xs sm:text-sm text-[#4A4A4A] dark:text-[#9E9E9E] leading-relaxed font-manrope">
+              Step through the 6-phase preconstruction workflow: from plan calibration and Bluebeam polygon take-offs to formula derivations, BOQ assembly, RFI logging, and zero-variance QC matrices.
+            </p>
+
+            {/* 6 Phase Selector Pills with Clear Exploration Prompt */}
+            <div className="flex flex-col gap-2 pt-1">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[10px] font-space text-[#FF5600] uppercase font-bold tracking-wider">
+                  <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
+                  <span>Click Phases to Audit Deliverables:</span>
+                </span>
+                <span className="text-[10px] font-manrope text-[#7A7A7A] dark:text-[#8E8E8E]">
+                  6 Precon Steps
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-1.5 p-2 rounded-2xl bg-black/[0.04] dark:bg-white/[0.06] border-2 border-[#FF5600]/30 dark:border-[#FF5600]/40 shadow-inner">
+                {proofSteps.map((step, idx) => {
+                  const phaseTags = [
+                    '5 Bluebeam Drawings',
+                    'Derivation Lineage PDF',
+                    '3-Page BOQ Sheet',
+                    'RFI Question Log',
+                    'QC Variance Matrix',
+                    'CSV Source Trail'
+                  ];
+                  const isCurrent = activeStepIndex === idx;
+                  return (
+                    <button
+                      key={step.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveStepIndex(idx);
+                        if (idx === 0) setActiveTakeoffSubIndex(0);
+                      }}
+                      className={`p-2.5 rounded-xl text-left transition-all cursor-pointer flex flex-col gap-0.5 relative ${
+                        isCurrent
+                          ? 'bg-[#FF5600] text-white shadow-md'
+                          : 'text-[#4A4A4A] dark:text-[#B0B0B0] hover:text-black dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span className="font-space text-[10px] font-bold opacity-85">
+                          PHASE {step.stepNumber}
+                        </span>
+                        <span className={`text-[8px] font-space px-1.5 py-0.2 rounded ${isCurrent ? 'bg-white/20 text-white' : 'bg-[#FF5600]/10 text-[#FF5600]'}`}>
+                          {isCurrent ? 'Active' : 'Click'}
+                        </span>
+                      </div>
+                      <span className="font-manrope text-xs font-bold truncate">
+                        {step.name}
+                      </span>
+                      <span className={`text-[9px] font-manrope truncate ${isCurrent ? 'text-white/80' : 'text-[#777777] dark:text-[#8E8E8E]'}`}>
+                        {phaseTags[idx]}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Exploration Hint Box */}
+              <div className="p-3 rounded-xl bg-[#FF5600]/[0.06] border border-[#FF5600]/20 flex items-start gap-2.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5600] flex-shrink-0 mt-0.5" />
+                <p className="text-[11px] font-manrope text-[#5A5A5A] dark:text-[#B0B0B0] leading-relaxed">
+                  <strong className="text-[#1A1A1A] dark:text-[#F4F4F1]">Audit Pack Explorer:</strong> Click buttons above to inspect the complete 6-phase chain from initial plan calibration and take-offs to formula derivations, BOQ sheets, and reconciliation matrices.
                 </p>
               </div>
-
-              {/* Inspect / Open Buttons */}
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() =>
-                    onInspectDocument({
-                      src: activeImage.src,
-                      title: activeImage.title,
-                      category: activeImage.category,
-                      description: activeImage.description,
-                      isPdf: isPdf,
-                      pages: activeImage.pages,
-                    })
-                  }
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] text-xs font-apple-mono text-[#1A1A1A] dark:text-[#E0E0E0] hover:text-[#FF5600] hover:border-[#FF5600]/40 transition-all cursor-pointer shadow-xs active:scale-95 font-medium"
-                >
-                  {isPdf ? (
-                    <>
-                      <Maximize2 className="w-4 h-4 text-[#FF5600]" />
-                      <span>Expand QuickLook</span>
-                    </>
-                  ) : (
-                    <>
-                      <ZoomIn className="w-4 h-4 text-[#FF5600]" />
-                      <span>Inspect High-Res</span>
-                    </>
-                  )}
-                </button>
-              </div>
             </div>
 
-            {/* If step has multiple items, show selector buttons */}
-            {currentImages.length > 1 && (
-              <div className="flex flex-col gap-2">
-                <span className="text-[11px] font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] font-semibold">
-                  {activeStepIndex === 0
-                    ? 'Select Drawing / Take-Off Evidence:'
-                    : 'Select Document / Sheet Evidence:'}
-                </span>
-                <div className="flex overflow-x-auto no-scrollbar sm:flex-wrap gap-2 pb-1 -mx-1 px-1">
-                  {currentImages.map((img, subIdx) => {
-                    const isSubActive = activeTakeoffSubIndex === subIdx;
-                    return (
+            {/* Quick Context Summary Box */}
+            <div className="p-3.5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08] flex flex-col gap-2">
+              <div className="flex items-center justify-between text-[11px] font-space">
+                <span className="text-[#FF5600] font-bold">TOOL USED:</span>
+                <span className="text-[#1A1A1A] dark:text-[#E0E0E0]">{currentStep.tool}</span>
+              </div>
+              <p className="text-xs text-[#4A4A4A] dark:text-[#9E9E9E] font-manrope leading-relaxed">
+                {currentStep.description}
+              </p>
+            </div>
+
+          </div>
+
+          {/* RIGHT COLUMN: Interactive Document & Image Inspector Panel */}
+          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-3 panel-scrollbar flex flex-col gap-3">
+            
+            {/* If Phase 01 (Takeoff): 5 Sub-Drawing Markups */}
+            {isTakeoffStep ? (
+              <div className="flex flex-col gap-3 animate-subtle-fade-in">
+                {/* Sub-Tabs for the 5 take-off drawings with clear invitation */}
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
+                    <span>Click Drawing Buttons 1–5 to Switch Trade Markups:</span>
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-1 p-1 rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08]">
+                    {currentStep.images.map((img, subIdx) => (
                       <button
-                        key={subIdx}
+                        key={img.title}
                         type="button"
                         onClick={() => setActiveTakeoffSubIndex(subIdx)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-apple-mono transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 ${
-                          isSubActive
-                            ? 'bg-[#FF5600]/10 border border-[#FF5600]/40 text-[#FF5600] font-medium shadow-xs'
-                            : 'bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-[#E0E0E0] hover:border-[#FF5600]/30'
+                        className={`py-2 px-2 rounded-xl text-[10px] font-manrope font-bold transition-all cursor-pointer text-center truncate ${
+                          activeTakeoffSubIndex === subIdx
+                            ? 'bg-[#FF5600] text-white shadow-2xs'
+                            : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-black dark:hover:text-white'
                         }`}
                       >
-                        {img.isPdf ? (
-                          <FileText className="w-3.5 h-3.5 flex-shrink-0" />
-                        ) : (
-                          <ImageIcon className="w-3.5 h-3.5 flex-shrink-0" />
-                        )}
-                        <span>{img.title}</span>
+                        <div>Drawing {subIdx + 1}</div>
+                        <div className={`text-[8px] truncate ${activeTakeoffSubIndex === subIdx ? 'text-white/80' : 'text-[#777777]'}`}>
+                          {['Calibration', 'Landscape', 'Doors/Wins', 'Ceil/Floor', 'Roofing'][subIdx]}
+                        </div>
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
+
+                {/* Active Drawing Preview Card */}
+                {(() => {
+                  const activeImg = currentStep.images[activeTakeoffSubIndex];
+                  return (
+                    <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.1] bg-[#0E0E12] shadow-xl flex flex-col">
+                      <div className="px-4 py-2.5 bg-[#14141A] border-b border-white/10 flex items-center justify-between">
+                        <div>
+                          <div className="text-xs font-bold text-white font-manrope">
+                            {activeImg.title}
+                          </div>
+                          <div className="text-[10px] font-space text-[#FF5600]">
+                            {activeImg.category}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => onInspectDocument(activeImg)}
+                          className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FF5600] text-white text-xs font-manrope font-bold hover:bg-[#E04C00] active:scale-95 transition-all shadow-xs cursor-pointer"
+                        >
+                          <Maximize2 className="w-3 h-3" />
+                          <span>Inspect Full Screen</span>
+                        </button>
+                      </div>
+
+                      <div
+                        className="relative aspect-[16/10] sm:aspect-[16/9] w-full bg-black/80 flex items-center justify-center p-1 cursor-pointer group"
+                        onClick={() => onInspectDocument(activeImg)}
+                      >
+                        <img
+                          src={activeImg.src}
+                          alt={activeImg.title}
+                          className="max-h-full max-w-full object-contain filter contrast-105"
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-manrope text-xs font-bold backdrop-blur-2xs">
+                          <ZoomIn className="w-4 h-4 text-[#FF5600]" />
+                          <span>Click to Inspect High-Resolution Drawing</span>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-[#121216] border-t border-white/10 text-xs text-white/70 font-manrope">
+                        {activeImg.description}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Workflow Story Points */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-manrope">
+                  <div className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                    <div className="text-[10px] font-space text-[#FF5600] font-bold uppercase mb-1">01 Goal</div>
+                    <p className="text-[#4A4A4A] dark:text-[#9E9E9E]">{currentStep.storyContext.unclearOrGoal}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                    <div className="text-[10px] font-space text-[#FF5600] font-bold uppercase mb-1">02 Action</div>
+                    <p className="text-[#4A4A4A] dark:text-[#9E9E9E]">{currentStep.storyContext.actionTaken}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                    <div className="text-[10px] font-space text-[#FF5600] font-bold uppercase mb-1">03 Outcome</div>
+                    <p className="text-[#4A4A4A] dark:text-[#9E9E9E]">{currentStep.storyContext.outcome}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Phases 02 to 06: PDF Documents */
+              <div className="flex flex-col gap-3 animate-subtle-fade-in">
+                {currentStep.images.map((img) => (
+                  <div key={img.title} className="flex flex-col gap-3">
+                    <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.1] bg-[#0E0E12] shadow-xl">
+                      <div className="px-4 py-2.5 bg-[#14141A] border-b border-white/10 flex items-center justify-between">
+                        <div>
+                          <div className="text-xs font-bold text-white font-manrope">
+                            {img.title}
+                          </div>
+                          <div className="text-[10px] font-space text-[#FF5600]">
+                            {img.category}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => onInspectDocument(img)}
+                          className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FF5600] text-white text-xs font-manrope font-bold hover:bg-[#E04C00] active:scale-95 transition-all shadow-xs cursor-pointer"
+                        >
+                          <Maximize2 className="w-3 h-3" />
+                          <span>Inspect PDF</span>
+                        </button>
+                      </div>
+
+                      {/* Embedded Canvas PDF Previewer */}
+                      <div className="p-2 bg-[#0A0A0D]">
+                        <PdfCanvasViewer
+                          url={img.src}
+                          title={img.title}
+                          maxContainerHeight="380px"
+                          onExpand={() => onInspectDocument(img)}
+                        />
+                      </div>
+
+                      <div className="p-3 bg-[#121216] border-t border-white/10 text-xs text-white/70 font-manrope">
+                        {img.description}
+                      </div>
+                    </div>
+
+                    {/* Story context */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-manrope">
+                      <div className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                        <div className="text-[10px] font-space text-[#FF5600] font-bold uppercase mb-1">01 Goal</div>
+                        <p className="text-[#4A4A4A] dark:text-[#9E9E9E]">{currentStep.storyContext.unclearOrGoal}</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                        <div className="text-[10px] font-space text-[#FF5600] font-bold uppercase mb-1">02 Action</div>
+                        <p className="text-[#4A4A4A] dark:text-[#9E9E9E]">{currentStep.storyContext.actionTaken}</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.08]">
+                        <div className="text-[10px] font-space text-[#FF5600] font-bold uppercase mb-1">03 Outcome</div>
+                        <p className="text-[#4A4A4A] dark:text-[#9E9E9E]">{currentStep.storyContext.outcome}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
-          {/* Visual Evidence Canvas + Context Story */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Visual Evidence Showcase: PDF Embedded Viewer OR High-Res Image */}
-            <div className="lg:col-span-8 flex flex-col gap-3">
-              {isPdf ? (
-                /* Authentic Vector PDF Viewer via HTML5 Canvas */
-                <PdfCanvasViewer
-                  url={activeImage.src}
-                  title={activeImage.title}
-                  maxContainerHeight="580px"
-                  onExpand={() =>
-                    onInspectDocument({
-                      src: activeImage.src,
-                      title: activeImage.title,
-                      category: activeImage.category,
-                      description: activeImage.description,
-                      isPdf: true,
-                      pages: activeImage.pages,
-                    })
-                  }
-                />
-              ) : (
-                /* High-Resolution Take-Off Image Viewer */
-                <div
-                  onClick={() =>
-                    onInspectDocument({
-                      src: activeImage.src,
-                      title: activeImage.title,
-                      category: activeImage.category,
-                      description: activeImage.description,
-                      isPdf: false,
-                    })
-                  }
-                  className="group relative rounded-2xl overflow-hidden bg-slate-900 border border-[#AAAAAA]/30 dark:border-[#333333] shadow-xl cursor-zoom-in flex items-center justify-center min-h-[360px] sm:min-h-[460px] select-none"
-                  onContextMenu={(e) => e.preventDefault()}
-                >
-                  <img
-                    src={activeImage.src}
-                    alt={activeImage.title}
-                    className="w-full h-auto max-h-[560px] object-contain p-2 rounded-xl group-hover:scale-[1.01] transition-transform duration-300 select-none pointer-events-none"
-                    loading="lazy"
-                    draggable={false}
-                    onContextMenu={(e) => e.preventDefault()}
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      // Fallback between hyphenated and uppercase original if needed
-                      if (img.src.includes('plan-calibration')) {
-                        img.src = '/assets/proof/PLAN%20CALIBRATION.jpg';
-                      } else if (img.src.includes('area-takeoff-landscape')) {
-                        img.src = '/assets/proof/AREA%20TAKEOFF%20-%20LANDSCAPE.jpg';
-                      } else if (img.src.includes('count-takeoff-doors-windows')) {
-                        img.src = '/assets/proof/COUNT%20TAKEOFF%20-%20DOORS%20AND%20WINDOWS.jpg';
-                      } else if (img.src.includes('area-takeoff-ceiling-floor')) {
-                        img.src = '/assets/proof/AREA%20TAKEOFF%20-%20CEILING%20AND%20FLOOR.jpg';
-                      } else if (img.src.includes('roofing-take-off')) {
-                        img.src = '/assets/proof/ROOFING%20TAKE%20OFF.jpg';
-                      }
-                    }}
-                  />
-
-                  {/* Hover overlay hint */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-apple-mono text-white backdrop-blur-[2px]">
-                    <ZoomIn className="w-5 h-5 text-[#FF5600]" />
-                    <span>Click to Zoom & Pan High-Resolution Evidence</span>
-                  </div>
-
-                  {/* Bottom Source Tag */}
-                  <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/80 border border-white/15 text-[10px] font-apple-mono text-[#CC8400]">
-                    Source-Verified Evidence
-                  </div>
+            {/* In-Content Navigation Invitation to Next Section */}
+            {onNavigateSection && (
+              <div className="mt-2 p-4 rounded-2xl bg-gradient-to-r from-[#FF5600]/10 to-transparent border border-[#FF5600]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider block">
+                    Completed Auditing Proof Pack?
+                  </span>
+                  <p className="text-xs font-manrope text-[#3A3A3A] dark:text-[#E0E0E0] font-medium">
+                    Next: Review the 6 verified tender deliverables & download options.
+                  </p>
                 </div>
-              )}
-
-              {/* Caption */}
-              <div className="flex flex-wrap items-center justify-between text-xs font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] px-1 gap-2">
-                <span>{activeImage.category}</span>
-                <span className="text-[#FF5600] font-medium">{activeImage.title}</span>
-              </div>
-            </div>
-
-            {/* Context Story Sidebar */}
-            <div className="lg:col-span-4 flex flex-col gap-3.5">
-              
-              <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] flex flex-col gap-2 shadow-2xs">
-                <span className="text-[11px] font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] flex items-center gap-1.5 font-semibold">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#CC8400]" />
-                  Objective & Scope
-                </span>
-                <p className="text-xs text-[#1A1A1A] dark:text-[#E0E0E0] leading-relaxed font-apple-text">
-                  {currentStep.storyContext.unclearOrGoal}
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] flex flex-col gap-2 shadow-2xs">
-                <span className="text-[11px] font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] flex items-center gap-1.5 font-semibold">
-                  <Layers className="w-3.5 h-3.5 text-[#CC8400]" />
-                  Action Taken
-                </span>
-                <p className="text-xs text-[#1A1A1A] dark:text-[#E0E0E0] leading-relaxed font-apple-text">
-                  {currentStep.storyContext.actionTaken}
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.07] flex flex-col gap-2 shadow-2xs">
-                <span className="text-[11px] font-apple-mono text-[#4A4A4A] dark:text-[#9E9E9E] flex items-center gap-1.5 font-semibold">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#CC8400]" />
-                  Estimating Outcome
-                </span>
-                <p className="text-xs text-[#1A1A1A] dark:text-[#E0E0E0] leading-relaxed font-apple-text">
-                  {currentStep.storyContext.outcome}
-                </p>
-              </div>
-
-              {/* Step Navigator Next / Prev */}
-              <div className="flex items-center justify-between pt-3 border-t border-black/[0.05] dark:border-white/[0.06]">
                 <button
                   type="button"
-                  disabled={activeStepIndex === 0}
-                  onClick={() => {
-                    setActiveStepIndex((prev) => Math.max(0, prev - 1));
-                    setActiveTakeoffSubIndex(0);
-                  }}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-apple-mono transition-all ${
-                    activeStepIndex === 0
-                      ? 'opacity-30 cursor-not-allowed'
-                      : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-[#1A1A1A] dark:hover:text-[#E0E0E0] bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] hover:border-[#FF5600]/40 cursor-pointer shadow-2xs'
-                  }`}
+                  onClick={() => onNavigateSection(5)}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FF5600] hover:bg-[#E04C00] text-white font-manrope font-bold text-xs transition-all shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
                 >
-                  ← Previous Phase
-                </button>
-
-                <button
-                  type="button"
-                  disabled={activeStepIndex === proofSteps.length - 1}
-                  onClick={() => {
-                    setActiveStepIndex((prev) => Math.min(proofSteps.length - 1, prev + 1));
-                    setActiveTakeoffSubIndex(0);
-                  }}
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-xl text-xs font-apple-mono transition-all ${
-                    activeStepIndex === proofSteps.length - 1
-                      ? 'opacity-30 cursor-not-allowed'
-                      : 'text-white bg-[#FF5600] hover:bg-[#E04D00] cursor-pointer font-medium shadow-[0_2px_8px_rgba(255,86,0,0.3)]'
-                  }`}
-                >
-                  <span>Next Phase</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <span>View Evidence Pack</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-
-            </div>
+            )}
 
           </div>
 
         </div>
-
       </div>
-
-    </div>
-  </section>
-);
+    </section>
+  );
 };
