@@ -8,10 +8,7 @@ import {
   Maximize2,
   FileText,
   Image as ImageIcon,
-  Check,
-  MousePointerClick,
-  Sparkles,
-  ArrowRight
+  Check
 } from 'lucide-react';
 import { ProofStepItem } from '../types';
 import { PdfCanvasViewer } from './PdfCanvasViewer';
@@ -59,16 +56,16 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
           description: 'Color-coded area markups for softscape, hardscape, pavements, and garden boundaries.',
         },
         {
+          src: '/assets/proof/area-takeoff-ceiling-floor.jpg',
+          title: 'Ceiling & Floor Finishes Area Take-Off',
+          category: 'Bluebeam Revu · Area Measurements',
+          description: 'Room-by-room area take-offs for ceramic tile, timber flooring, and plasterboard ceiling linings.',
+        },
+        {
           src: '/assets/proof/count-takeoff-doors-windows.jpg',
           title: 'Door & Window Count Take-Off',
           category: 'Bluebeam Revu · Count Markups',
           description: 'Exact itemized schedule counting for internal/external doors, aluminium windows, and glazing.',
-        },
-        {
-          src: '/assets/proof/area-takeoff-ceiling-floor.jpg',
-          title: 'Ceiling & Floor Finishes Take-Off',
-          category: 'Bluebeam Revu · Area Measurements',
-          description: 'Room-by-room area take-offs for ceramic tile, timber flooring, and plasterboard ceiling linings.',
         },
         {
           src: '/assets/proof/roofing-take-off.jpg',
@@ -201,7 +198,7 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
   return (
     <section
       id="proof"
-      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+      className="relative min-h-full w-full flex flex-col justify-center py-6 sm:py-10 lg:py-12"
     >
       {/* Background CAD Grid */}
       <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />
@@ -233,9 +230,8 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
             {/* 6 Phase Selector Pills with Clear Exploration Prompt */}
             <div className="flex flex-col gap-2 pt-1">
               <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-[10px] font-space text-[#FF5600] uppercase font-bold tracking-wider">
-                  <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
-                  <span>Click Phases to Audit Deliverables:</span>
+                <span className="text-[10px] font-space text-[#FF5600] uppercase font-bold tracking-wider">
+                  Phase Selection
                 </span>
                 <span className="text-[10px] font-manrope text-[#7A7A7A] dark:text-[#8E8E8E]">
                   6 Precon Steps
@@ -285,14 +281,6 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
                   );
                 })}
               </div>
-
-              {/* Exploration Hint Box */}
-              <div className="p-3 rounded-xl bg-[#FF5600]/[0.06] border border-[#FF5600]/20 flex items-start gap-2.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF5600] flex-shrink-0 mt-0.5" />
-                <p className="text-[11px] font-manrope text-[#5A5A5A] dark:text-[#B0B0B0] leading-relaxed">
-                  <strong className="text-[#1A1A1A] dark:text-[#F4F4F1]">Audit Pack Explorer:</strong> Click buttons above to inspect the complete 6-phase chain from initial plan calibration and take-offs to formula derivations, BOQ sheets, and reconciliation matrices.
-                </p>
-              </div>
             </div>
 
             {/* Quick Context Summary Box */}
@@ -314,28 +302,30 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
             {/* If Phase 01 (Takeoff): 5 Sub-Drawing Markups */}
             {isTakeoffStep ? (
               <div className="flex flex-col gap-3 animate-subtle-fade-in">
-                {/* Sub-Tabs for the 5 take-off drawings with clear invitation */}
+                {/* Sub-Tabs for the 5 take-off drawings */}
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                    <MousePointerClick className="w-3.5 h-3.5 animate-bounce" />
-                    <span>Click Drawing Buttons 1–5 to Switch Trade Markups:</span>
+                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider">
+                    Trade Markups
                   </span>
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-1 p-1 rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08]">
-                    {currentStep.images.map((img, subIdx) => (
+                    {[
+                      'Plan Calibration',
+                      'Landscape Take-off',
+                      'Area Take-off',
+                      'Count Take-off',
+                      'Roofing Take-off',
+                    ].map((label, subIdx) => (
                       <button
-                        key={img.title}
+                        key={label}
                         type="button"
                         onClick={() => setActiveTakeoffSubIndex(subIdx)}
-                        className={`py-2 px-2 rounded-xl text-[10px] font-manrope font-bold transition-all cursor-pointer text-center truncate ${
+                        className={`py-2 px-2 rounded-xl text-[10px] font-manrope font-bold transition-all cursor-pointer text-center flex items-center justify-center min-h-[38px] leading-tight ${
                           activeTakeoffSubIndex === subIdx
                             ? 'bg-[#FF5600] text-white shadow-2xs'
                             : 'text-[#4A4A4A] dark:text-[#9E9E9E] hover:text-black dark:hover:text-white'
                         }`}
                       >
-                        <div>Drawing {subIdx + 1}</div>
-                        <div className={`text-[8px] truncate ${activeTakeoffSubIndex === subIdx ? 'text-white/80' : 'text-[#777777]'}`}>
-                          {['Calibration', 'Landscape', 'Doors/Wins', 'Ceil/Floor', 'Roofing'][subIdx]}
-                        </div>
+                        <span>{label}</span>
                       </button>
                     ))}
                   </div>
@@ -460,28 +450,6 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
                     </div>
                   </div>
                 ))}
-              </div>
-            )}
-
-            {/* In-Content Navigation Invitation to Next Section */}
-            {onNavigateSection && (
-              <div className="mt-2 p-4 rounded-2xl bg-gradient-to-r from-[#FF5600]/10 to-transparent border border-[#FF5600]/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div>
-                  <span className="text-[10px] font-space text-[#FF5600] font-bold uppercase tracking-wider block">
-                    Completed Auditing Proof Pack?
-                  </span>
-                  <p className="text-xs font-manrope text-[#3A3A3A] dark:text-[#E0E0E0] font-medium">
-                    Next: Review the 6 verified tender deliverables & download options.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onNavigateSection(5)}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FF5600] hover:bg-[#E04C00] text-white font-manrope font-bold text-xs transition-all shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap"
-                >
-                  <span>View Evidence Pack</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
               </div>
             )}
 

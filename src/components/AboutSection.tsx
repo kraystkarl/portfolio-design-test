@@ -1,15 +1,15 @@
 import React from 'react';
-import { Linkedin, Mail, FileText, ArrowUpRight, Award, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Linkedin, Mail, FileText, ArrowUpRight } from 'lucide-react';
 
 interface AboutSectionProps {
   onNavigateSection?: (index: number) => void;
 }
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateSection }) => {
+export const AboutSection: React.FC<AboutSectionProps> = () => {
   return (
     <section
       id="about"
-      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+      className="relative min-h-full w-full flex flex-col justify-center py-6 sm:py-10 lg:py-12"
     >
       {/* Background Architectural Subtle CAD Grid */}
       <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />
@@ -38,24 +38,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateSection })
                     draggable={false}
                     onContextMenu={(e) => e.preventDefault()}
                   />
-                  
-                  {/* Subtle Top Badge */}
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-space text-white uppercase tracking-wider">
-                    Engr. Christ Carl Tapat
-                  </div>
-
-                  {/* Bottom Credentials Pill */}
-                  <div className="absolute bottom-3 inset-x-3 p-3 rounded-2xl bg-black/80 backdrop-blur-md border border-white/15 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Award className="w-4 h-4 text-[#FF5600]" />
-                      <span className="text-xs font-bold text-white font-manrope">
-                        Dual Licensed
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-space text-[#FF5600]">
-                      CE · MP
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -137,17 +119,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onNavigateSection })
                 <span>Download Resume PDF</span>
                 <ArrowUpRight className="w-3 h-3 opacity-60" />
               </a>
-
-              {onNavigateSection && (
-                <button
-                  type="button"
-                  onClick={() => onNavigateSection(2)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FF5600] hover:bg-[#E04C00] text-white text-xs font-manrope font-bold shadow-sm hover:shadow-md active:scale-95 transition-all cursor-pointer"
-                >
-                  <span>Explore Experience Milestones</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              )}
             </div>
 
           </div>

@@ -18,7 +18,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenBooking })
   return (
     <section
       id="contact"
-      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+      className="relative w-full flex flex-col justify-center py-8 sm:py-12 lg:py-16"
     >
       {/* Background CAD Grid */}
       <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Table, Calculator, FileQuestion, ShieldCheck, Link2, FileSpreadsheet, Check, Download, ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Table, Calculator, FileQuestion, ShieldCheck, Link2, FileSpreadsheet, Check, Download, ArrowUpRight } from 'lucide-react';
 
 interface EvidencePackageSummaryProps {
   onNavigateSection?: (index: number) => void;
 }
 
-export const EvidencePackageSummary: React.FC<EvidencePackageSummaryProps> = ({ onNavigateSection }) => {
+export const EvidencePackageSummary: React.FC<EvidencePackageSummaryProps> = () => {
   const packageItems = [
     {
       title: '01. Bill of Quantities (BOQ)',
@@ -48,7 +48,7 @@ export const EvidencePackageSummary: React.FC<EvidencePackageSummaryProps> = ({ 
   return (
     <section
       id="evidence"
-      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+      className="relative min-h-full w-full flex flex-col justify-center py-6 sm:py-10 lg:py-12"
     >
       {/* Background CAD Grid */}
       <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-50" />
@@ -94,28 +94,6 @@ export const EvidencePackageSummary: React.FC<EvidencePackageSummaryProps> = ({ 
                 <Download className="w-3.5 h-3.5" />
                 <span>Download Resume & Credentials PDF</span>
               </a>
-
-              {onNavigateSection && (
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => onNavigateSection(4)}
-                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.1] text-xs font-manrope font-bold text-[#1A1A1A] dark:text-[#E0E0E0] hover:text-[#FF5600] transition-all cursor-pointer"
-                  >
-                    <ArrowLeft className="w-3 h-3" />
-                    <span>Back to Proof</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => onNavigateSection(1)}
-                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.1] text-xs font-manrope font-bold text-[#1A1A1A] dark:text-[#E0E0E0] hover:text-[#FF5600] transition-all cursor-pointer"
-                  >
-                    <span>Contact Info</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </button>
-                </div>
-              )}
             </div>
 
           </div>

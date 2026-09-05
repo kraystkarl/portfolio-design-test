@@ -57,7 +57,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="intro"
-      className="relative min-h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-28 sm:pb-32 overflow-hidden"
+      className="relative min-h-full w-full flex flex-col justify-center py-6 sm:py-10 lg:py-12"
     >
       {/* Background Architectural Subtle CAD Grid & Ambient Light */}
       <div className="absolute inset-0 bg-cad-grid pointer-events-none opacity-60" />
@@ -67,7 +67,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* LEFT COLUMN: Christoph Nagel Cinematic Intro Statement & Route Cards */}
-          <div className="lg:col-span-7 flex flex-col gap-5 sm:gap-6">
+          <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-5">
             
             {/* Section Kicker in Christoph Nagel format */}
             <div className="flex items-center gap-3">
@@ -75,6 +75,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <span className="kicker-badge">00</span>
                 <span>INTRO · CIVIL ENGINEER & ESTIMATOR</span>
               </span>
+            </div>
+
+            {/* 3 Core Roles with Glowing Status Dot */}
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.1] text-xs font-manrope font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#FF5600] shadow-[0_0_8px_rgba(255,86,0,0.85)] animate-pulse flex-shrink-0" />
+                <span>Construction Estimator</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.1] text-xs font-manrope font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#FF5600] shadow-[0_0_8px_rgba(255,86,0,0.85)] animate-pulse flex-shrink-0" />
+                <span>Project Coordination</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.1] text-xs font-manrope font-semibold text-[#1A1A1A] dark:text-[#E0E0E0] shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#FF5600] shadow-[0_0_8px_rgba(255,86,0,0.85)] animate-pulse flex-shrink-0" />
+                <span>Construction VA</span>
+              </div>
             </div>
 
             {/* Dominant Architectural Heading */}

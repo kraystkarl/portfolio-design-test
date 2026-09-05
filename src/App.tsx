@@ -12,7 +12,6 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ProofModal } from './components/ProofModal';
 import { BookingModal } from './components/BookingModal';
-import { SectionControls } from './components/SectionControls';
 import { SideRailNav } from './components/SideRailNav';
 
 export default function App() {
@@ -47,8 +46,8 @@ export default function App() {
     'About',
     'Experience',
     'Methodology',
-    'Proof of Work',
-    'Evidence Pack',
+    'Proof',
+    'Evidence',
     'Contact',
   ];
 
@@ -260,19 +259,14 @@ export default function App() {
           onOpenBooking={() => setIsBookingOpen(true)}
         />
 
-        {/* Christoph Nagel Right Side Rail Quick Jump Dots */}
+        {/* Dual-Purpose Center-Right Navigation Rail */}
         <SideRailNav
           currentIndex={activeSectionIndex}
+          totalSections={totalSections}
           sectionIds={sectionIds}
           sectionNames={sectionNames}
+          viewMode={viewMode}
           onSelectSection={handleSelectSection}
-        />
-
-        {/* Christoph Nagel Bottom Right Corner Section Controls */}
-        <SectionControls
-          currentIndex={activeSectionIndex}
-          totalSections={totalSections}
-          sectionNames={sectionNames}
           onPrevious={handlePrevious}
           onNext={handleNext}
         />
@@ -280,7 +274,7 @@ export default function App() {
         {/* Main Content Presentation */}
         {viewMode === 'panel' ? (
           /* CINEMATIC SLIDE PANEL MODE (Christoph Nagel Architecture) */
-          <main className="relative w-full h-[100dvh] overflow-hidden">
+          <main className="relative w-full h-[100dvh] pt-16 sm:pt-18 overflow-hidden">
             <AnimatePresence mode="wait" custom={slideDirection}>
               <motion.div
                 key={activeSectionIndex}
@@ -297,7 +291,7 @@ export default function App() {
           </main>
         ) : (
           /* CONTINUOUS FREE SCROLL MODE */
-          <main className="relative pt-16">
+          <main className="relative pt-16 sm:pt-18">
             <HeroSection
               onOpenBooking={() => setIsBookingOpen(true)}
               onNavigateSection={handleSelectSection}
