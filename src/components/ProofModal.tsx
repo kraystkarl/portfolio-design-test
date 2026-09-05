@@ -36,11 +36,11 @@ export const ProofModal: React.FC<ProofModalProps> = ({ isOpen, onClose, documen
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 bg-black/70 backdrop-blur-xl overflow-hidden transition-opacity duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 md:p-8 bg-black/80 backdrop-blur-xl overflow-hidden transition-opacity duration-200"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-6xl h-[88vh] max-h-[840px] liquid-card border border-black/[0.08] dark:border-white/[0.12] rounded-3xl flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-6xl h-[92vh] sm:h-[88vh] max-h-[840px] liquid-card border border-black/[0.08] dark:border-white/[0.12] rounded-2xl sm:rounded-3xl flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}

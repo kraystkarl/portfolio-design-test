@@ -66,7 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick, onOpen
             </div>
 
             {/* Clear, Dominant Apple Display Heading (SF Pro Display) */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[62px] font-bold text-[#1A1A1A] dark:text-[#E0E0E0] leading-[1.08] tracking-tight font-apple-display">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[62px] font-bold text-[#1A1A1A] dark:text-[#E0E0E0] leading-[1.08] tracking-tight font-apple-display">
               Clear quantities. <br />
               <span className="text-[#FF5600]">Reliable</span> estimating support.
             </h1>

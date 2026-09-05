@@ -32,10 +32,17 @@ export const PdfCanvasViewer: React.FC<PdfCanvasViewerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const getResponsiveDefaultScale = () => {
+    if (typeof window === 'undefined') return 1.1;
+    if (window.innerWidth < 640) return 0.65;
+    if (window.innerWidth < 1024) return 0.95;
+    return 1.25;
+  };
+
   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [pageNum, setPageNum] = useState<number>(1);
   const [numPages, setNumPages] = useState<number>(1);
-  const [scale, setScale] = useState<number>(1.25);
+  const [scale, setScale] = useState<number>(getResponsiveDefaultScale);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [renderTask, setRenderTask] = useState<any>(null);
@@ -140,7 +147,7 @@ export const PdfCanvasViewer: React.FC<PdfCanvasViewerProps> = ({
   };
 
   const handleResetZoom = () => {
-    setScale(1.25);
+    setScale(getResponsiveDefaultScale());
   };
 
   const handlePrevPage = () => {

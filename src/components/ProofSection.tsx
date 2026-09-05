@@ -270,7 +270,7 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument })
                     {idx === 0 ? 'Bluebeam' : 'Microsoft Excel'}
                   </span>
                 </div>
-                <span className={`text-xs font-semibold mt-1 font-apple-display truncate ${
+                <span className={`text-xs font-semibold mt-1 font-apple-display line-clamp-2 leading-tight ${
                   isActive ? 'text-[#FF5600]' : 'text-[#6B7280] dark:text-[#737373]'
                 }`}>
                   {step.name}
@@ -358,7 +358,7 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument })
                     ? 'Select Drawing / Take-Off Evidence:'
                     : 'Select Document / Sheet Evidence:'}
                 </span>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex overflow-x-auto no-scrollbar sm:flex-wrap gap-2 pb-1 -mx-1 px-1">
                   {currentImages.map((img, subIdx) => {
                     const isSubActive = activeTakeoffSubIndex === subIdx;
                     return (

@@ -148,7 +148,7 @@ export const ExperienceSection: React.FC = () => {
                 </div>
 
                 {/* Right Meta Highlight Box */}
-                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 p-3 sm:p-3.5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08] shrink-0 self-start lg:self-center">
+                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 p-3 sm:p-3.5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08] shrink-0 w-full lg:w-auto self-start lg:self-center">
                   <div className="flex items-center gap-1.5 text-xs font-apple-mono text-[#1A1A1A] dark:text-[#E0E0E0]">
                     <Calendar className="w-3.5 h-3.5 text-[#CC8400]" />
                     <span className="font-semibold">Nov 2022 – Dec 2025</span>
@@ -301,7 +301,7 @@ export const ExperienceSection: React.FC = () => {
                 </div>
 
                 {/* Right Meta Highlight Box */}
-                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 p-3 sm:p-3.5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08] shrink-0 self-start lg:self-center">
+                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 p-3 sm:p-3.5 rounded-2xl liquid-glass border border-black/[0.06] dark:border-white/[0.08] shrink-0 w-full lg:w-auto self-start lg:self-center">
                   <div className="flex items-center gap-1.5 text-xs font-apple-mono text-[#1A1A1A] dark:text-[#E0E0E0]">
                     <Calendar className="w-3.5 h-3.5 text-[#CC8400]" />
                     <span className="font-semibold">Oct 2021 – Sep 2022</span>
