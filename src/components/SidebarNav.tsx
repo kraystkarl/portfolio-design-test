@@ -11,12 +11,12 @@ import {
   Download,
   Sun,
   Moon,
-  Layers,
-  ScrollText,
   Menu,
   X,
   Linkedin,
-  ChevronRight,
+  MapPin,
+  Clock,
+  ExternalLink
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -31,8 +31,6 @@ interface SidebarNavProps {
 export const SidebarNav: React.FC<SidebarNavProps> = ({
   activeSectionIndex,
   onSelectSection,
-  viewMode,
-  onToggleViewMode,
   onOpenBooking,
 }) => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -61,13 +59,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   }, [mobileDrawerOpen]);
 
   const navItems = [
-    { label: 'Intro', index: 0, kicker: '00', icon: Home, hash: '#intro' },
-    { label: 'About', index: 1, kicker: '01', icon: User, hash: '#about' },
-    { label: 'Experience', index: 2, kicker: '02', icon: Briefcase, hash: '#experience' },
-    { label: 'Methodology', index: 3, kicker: '03', icon: Wrench, hash: '#methodology' },
-    { label: 'Proof & QA', index: 4, kicker: '04', icon: ShieldCheck, hash: '#proof' },
-    { label: 'Evidence Package', index: 5, kicker: '05', icon: FolderGit2, hash: '#evidence' },
-    { label: 'Contact', index: 6, kicker: '06', icon: Mail, hash: '#contact' },
+    { label: 'Introduction', subtitle: 'Overview & Roles', index: 0, kicker: '00', icon: Home, hash: '#intro' },
+    { label: 'Profile & Credentials', subtitle: 'Civil Engineer · Reg.', index: 1, kicker: '01', icon: User, hash: '#about' },
+    { label: 'Field Experience', subtitle: 'DeepBluee & Coquilla', index: 2, kicker: '02', icon: Briefcase, hash: '#experience' },
+    { label: 'Methodology & Stack', subtitle: '8-Stage Process & Tools', index: 3, kicker: '03', icon: Wrench, hash: '#methodology' },
+    { label: 'Proof of QA', subtitle: '6-Step Case-File Audit', index: 4, kicker: '04', icon: ShieldCheck, hash: '#proof' },
+    { label: 'Audit Package', subtitle: 'Verified Deliverables', index: 5, kicker: '05', icon: FolderGit2, hash: '#evidence' },
+    { label: 'Contact & Inquiry', subtitle: 'Calendar & Direct Email', index: 6, kicker: '06', icon: Mail, hash: '#contact' },
   ];
 
   const handleNavClick = (index: number) => {
@@ -78,29 +76,27 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   return (
     <>
       {/* =========================================================================
-          1. DESKTOP ASkim-Style Persistent Left Sidebar (lg and up: 272px fixed)
+          1. DESKTOP Persistent Left Dossier Sidebar (lg and up: 280px fixed)
           ========================================================================= */}
       <aside
-        id="askim-sidebar"
-        className="hidden lg:flex fixed left-0 top-0 bottom-0 w-68 xl:w-72 z-40 flex-col bg-[#F7F7F8]/95 dark:bg-[#09090C]/95 backdrop-blur-2xl border-r border-black/[0.08] dark:border-white/[0.08] shadow-[4px_0_24px_rgba(0,0,0,0.03)] dark:shadow-[4px_0_32px_rgba(0,0,0,0.4)] select-none transition-colors duration-300"
+        id="dossier-sidebar"
+        className="hidden lg:flex fixed left-0 top-0 bottom-0 w-72 xl:w-80 z-40 flex-col bg-[#F7F7F8]/98 dark:bg-[#0C0C0F]/98 backdrop-blur-2xl border-r border-black/[0.08] dark:border-white/[0.08] shadow-[4px_0_24px_rgba(0,0,0,0.03)] dark:shadow-[4px_0_32px_rgba(0,0,0,0.4)] select-none transition-colors duration-300"
         aria-label="Sidebar Portfolio Navigation"
       >
-        <div className="flex flex-col h-full overflow-y-auto panel-scrollbar p-4 xl:p-5">
-          {/* A. Header Brand / Profile Card (Askim aesthetic) */}
+        <div className="flex flex-col h-full overflow-y-auto panel-scrollbar p-5">
+          {/* A. Profile Dossier Header */}
           <div className="flex flex-col pb-4 border-b border-black/[0.07] dark:border-white/[0.08]">
             <button
               type="button"
               onClick={() => handleNavClick(0)}
               className="group flex items-center gap-3.5 text-left cursor-pointer focus:outline-none"
             >
-              {/* Avatar with subtle Askim-style glow outline ring */}
-              <div className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#FF5600] via-[#FF5600]/40 to-transparent shadow-md group-hover:scale-105 transition-transform duration-200">
+              <div className="relative w-13 h-13 rounded-full p-[2px] bg-gradient-to-tr from-[#FF5600] via-[#FF5600]/40 to-transparent shadow-md group-hover:scale-105 transition-transform duration-200 shrink-0">
                 <img
                   src="/assets/profile/IMG_2080-web.jpg"
                   alt="Christ Carl Tapat"
                   className="w-full h-full object-cover rounded-full bg-[#1A1A22]"
                   onError={(e) => {
-                    // Fallback to monogram if image fails
                     const target = e.currentTarget;
                     target.style.display = 'none';
                     const parent = target.parentElement;
@@ -121,10 +117,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 <span className="text-[11px] font-space text-[#7A7A85] dark:text-[#9A9AA6] truncate">
                   Civil Engineer · Estimator
                 </span>
+                <span className="text-[10px] font-space text-[#FF5600] font-semibold truncate">
+                  Master Plumber · Precon QA
+                </span>
               </div>
             </button>
 
-            {/* Askim Availability Indicator Pill */}
+            {/* Availability Indicator */}
             <div className="mt-3.5 flex items-center justify-between px-3 py-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 dark:border-emerald-500/30">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
@@ -135,13 +134,29 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   #OPENFORWORK
                 </span>
               </div>
+              <span className="text-[10px] font-manrope text-[#666672] dark:text-[#9999A8]">
+                US & AU Remote
+              </span>
+            </div>
+
+            {/* Quick Specs metadata */}
+            <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-black/[0.05] dark:border-white/[0.05] text-[10px] font-space text-[#666672] dark:text-[#9999A8]">
+              <div className="flex items-center gap-1 truncate">
+                <MapPin className="w-3 h-3 text-[#FF5600] shrink-0" />
+                <span>Philippines</span>
+              </div>
+              <div className="flex items-center gap-1 truncate">
+                <Clock className="w-3 h-3 text-[#FF5600] shrink-0" />
+                <span>GMT+8 (US/AU)</span>
+              </div>
             </div>
           </div>
 
-          {/* B. Navigation Links (Askim Vertical Menu) */}
+          {/* B. Navigation Index (Curated Information Architecture) */}
           <nav className="flex-1 py-4 flex flex-col gap-1" aria-label="Main Navigation">
-            <div className="px-3 pb-2 text-[10px] font-space font-bold uppercase tracking-wider text-[#8A8A96] dark:text-[#6E6E7A]">
-              Navigation
+            <div className="px-3 pb-2 flex items-center justify-between text-[10px] font-space font-bold uppercase tracking-wider text-[#8A8A96] dark:text-[#6E6E7A]">
+              <span>Section Index</span>
+              <span>7 Areas</span>
             </div>
 
             {navItems.map((item) => {
@@ -153,16 +168,16 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   key={item.label}
                   type="button"
                   onClick={() => handleNavClick(item.index)}
-                  className={`group relative flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-manrope font-semibold cursor-pointer transition-all duration-200 ${
+                  className={`group relative flex items-center justify-between px-3 py-2.5 rounded-xl text-left cursor-pointer transition-all duration-200 ${
                     isActive
-                      ? 'bg-[#111115] text-white dark:bg-white dark:text-[#0B0B0E] shadow-sm font-bold'
+                      ? 'bg-[#111115] text-white dark:bg-white dark:text-[#0B0B0E] shadow-sm'
                       : 'text-[#50505A] dark:text-[#A0A0AD] hover:text-[#111115] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.05]'
                   }`}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span
-                      className={`p-1.5 rounded-lg transition-colors ${
+                      className={`p-1.5 rounded-lg transition-colors shrink-0 ${
                         isActive
                           ? 'bg-white/15 text-white dark:bg-black/10 dark:text-[#0B0B0E]'
                           : 'bg-black/[0.03] dark:bg-white/[0.04] text-[#7A7A88] dark:text-[#90909F] group-hover:text-[#FF5600] group-hover:bg-[#FF5600]/10'
@@ -170,11 +185,24 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                     >
                       <Icon className="w-3.5 h-3.5" />
                     </span>
-                    <span className="truncate">{item.label}</span>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-xs font-manrope font-semibold truncate leading-tight">
+                        {item.label}
+                      </span>
+                      <span
+                        className={`text-[9px] font-manrope truncate ${
+                          isActive
+                            ? 'text-white/75 dark:text-black/70'
+                            : 'text-[#8A8A96] dark:text-[#6E6E7A]'
+                        }`}
+                      >
+                        {item.subtitle}
+                      </span>
+                    </div>
                   </div>
 
                   <span
-                    className={`font-space text-[10px] tracking-tight ${
+                    className={`font-space text-[10px] tracking-tight shrink-0 ${
                       isActive
                         ? 'text-[#FF5600] dark:text-[#E04D00] font-bold'
                         : 'text-[#8A8A95] dark:text-[#656572] opacity-70 group-hover:opacity-100'
@@ -189,7 +217,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
           {/* C. Bottom Section: Quick Actions & Utilities */}
           <div className="pt-3 border-t border-black/[0.07] dark:border-white/[0.08] flex flex-col gap-2.5">
-            {/* Primary Action Button (Schedule Discovery Call) */}
+            {/* Primary Action Button */}
             {onOpenBooking && (
               <button
                 type="button"
@@ -197,11 +225,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#FF5600] hover:bg-[#E04D00] active:scale-[0.98] text-white text-xs font-manrope font-bold shadow-[0_4px_16px_rgba(255,86,0,0.3)] transition-all cursor-pointer"
               >
                 <Calendar className="w-3.5 h-3.5" />
-                <span>Book Discovery Call</span>
+                <span>Book 30-Min Precon Call</span>
               </button>
             )}
 
-            {/* Secondary Action: Resume / Pack Download */}
+            {/* Secondary Action: Resume Download */}
             <a
               href="/documents/Resume-Construction-Estimator-TAPAT.pdf"
               target="_blank"
@@ -209,30 +237,21 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               className="w-full flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-black/[0.04] dark:bg-white/[0.05] hover:bg-black/[0.07] dark:hover:bg-white/[0.09] text-[#2A2A32] dark:text-[#D0D0D8] text-xs font-manrope font-semibold border border-black/[0.06] dark:border-white/[0.07] transition-all"
             >
               <Download className="w-3.5 h-3.5 text-[#FF5600]" />
-              <span>Resume & CV (.PDF)</span>
+              <span>Resume PDF (Updated)</span>
             </a>
 
-            {/* Utility Bar: Presentation Mode + Theme Switcher + Socials */}
+            {/* Utilities: LinkedIn + Theme Switcher */}
             <div className="flex items-center justify-between pt-1 text-[#666672] dark:text-[#9A9AA8]">
-              {/* Presentation Mode Toggle */}
-              <button
-                type="button"
-                onClick={onToggleViewMode}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] hover:text-[#FF5600] text-[11px] font-manrope font-medium transition-colors cursor-pointer"
-                title={`Current: ${viewMode === 'panel' ? 'Slide Deck' : 'Scroll'}. Click to toggle.`}
+              <a
+                href="https://www.linkedin.com/in/christ-carl-tapat-23a53241b/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.06] dark:hover:bg-white/[0.08] hover:text-[#FF5600] text-[11px] font-manrope font-medium transition-colors"
               >
-                {viewMode === 'panel' ? (
-                  <>
-                    <Layers className="w-3.5 h-3.5 text-[#FF5600]" />
-                    <span>Slide Deck</span>
-                  </>
-                ) : (
-                  <>
-                    <ScrollText className="w-3.5 h-3.5 text-[#FF5600]" />
-                    <span>Continuous</span>
-                  </>
-                )}
-              </button>
+                <Linkedin className="w-3.5 h-3.5 text-[#0A66C2]" />
+                <span>LinkedIn</span>
+                <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+              </a>
 
               {/* Theme Toggle */}
               <button
@@ -248,39 +267,28 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   <Moon className="w-4 h-4" />
                 )}
               </button>
-
-              {/* Social Links */}
-              <div className="flex items-center gap-1">
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-1.5 rounded-lg hover:bg-black/[0.06] dark:hover:bg-white/[0.08] hover:text-[#FF5600] transition-colors text-[#555] dark:text-[#AAA]"
-                  title="LinkedIn Profile"
-                >
-                  <Linkedin className="w-3.5 h-3.5" />
-                </a>
-              </div>
             </div>
           </div>
         </div>
       </aside>
 
       {/* =========================================================================
-          2. MOBILE / TABLET TOP BAR (screens < lg)
+          2. MOBILE & TABLET Header Top Bar (< 1024px)
           ========================================================================= */}
-      <header className="lg:hidden fixed top-0 inset-x-0 z-50 h-16 px-4 flex items-center justify-between bg-[#F7F7F8]/95 dark:bg-[#09090C]/95 backdrop-blur-xl border-b border-black/[0.07] dark:border-white/[0.08] shadow-sm select-none transition-colors duration-300">
-        {/* Mobile Brand Link */}
+      <header
+        id="mobile-header"
+        className="lg:hidden fixed top-0 left-0 right-0 h-14 z-30 flex items-center justify-between px-4 bg-[#F7F7F8]/95 dark:bg-[#0A0A0D]/95 backdrop-blur-xl border-b border-black/[0.08] dark:border-white/[0.08]"
+      >
         <button
           type="button"
           onClick={() => handleNavClick(0)}
-          className="flex items-center gap-2.5 text-left cursor-pointer focus:outline-none"
+          className="flex items-center gap-2.5 text-left focus:outline-none cursor-pointer"
         >
-          <div className="relative w-9 h-9 rounded-full p-[1.5px] bg-gradient-to-tr from-[#FF5600] to-transparent shadow-sm">
+          <div className="w-8 h-8 rounded-full p-[1.5px] bg-[#FF5600]/40">
             <img
               src="/assets/profile/IMG_2080-web.jpg"
               alt="Christ Carl Tapat"
-              className="w-full h-full object-cover rounded-full bg-[#1A1A22]"
+              className="w-full h-full object-cover rounded-full"
             />
           </div>
           <div className="flex flex-col">
@@ -288,106 +296,104 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               Christ Carl Tapat
             </span>
             <span className="text-[10px] font-space text-[#7A7A85] dark:text-[#9A9AA6]">
-              Civil Engineer · Estimator
+              Construction Estimator · Civil Eng.
             </span>
           </div>
         </button>
 
-        {/* Mobile Right Controls: Theme + Menu Trigger */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.06] text-[#222228] dark:text-[#E0E0E8] active:scale-95"
+            className="p-2 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] text-[#303038] dark:text-[#D5D5E0]"
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-[#FF5600]" /> : <Moon className="w-4 h-4" />}
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-[#FF5600]" />
+            ) : (
+              <Moon className="w-4 h-4" />
+            )}
           </button>
 
           <button
             type="button"
-            onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
-            className="p-2 rounded-lg bg-[#FF5600] text-white active:scale-95 shadow-sm"
-            aria-label="Toggle mobile menu"
+            onClick={() => setMobileDrawerOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/[0.05] dark:bg-white/[0.08] border border-black/[0.06] dark:border-white/[0.08] text-xs font-manrope font-semibold text-[#111114] dark:text-[#F0F0F4] cursor-pointer"
+            aria-label="Open Navigation"
           >
-            {mobileDrawerOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            <Menu className="w-4 h-4 text-[#FF5600]" />
+            <span>Index</span>
           </button>
         </div>
       </header>
 
       {/* =========================================================================
-          3. MOBILE / TABLET OFF-CANVAS DRAWER
+          3. MOBILE Sliding Drawer Overlay (< 1024px)
           ========================================================================= */}
       {mobileDrawerOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
-          {/* Backdrop */}
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex justify-end"
+          onClick={() => setMobileDrawerOpen(false)}
+        >
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-            onClick={() => setMobileDrawerOpen(false)}
-          />
-
-          {/* Drawer Panel */}
-          <div className="relative w-4/5 max-w-xs h-full bg-[#F7F7F8] dark:bg-[#0B0B0E] border-r border-black/[0.08] dark:border-white/[0.08] shadow-2xl flex flex-col p-5 overflow-y-auto z-10 animate-in slide-in-from-left duration-200">
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-black/[0.08] dark:border-white/[0.08]">
-              <div className="flex items-center gap-2.5">
-                <img
-                  src="/assets/profile/IMG_2080-web.jpg"
-                  alt="Christ Carl Tapat"
-                  className="w-10 h-10 object-cover rounded-full"
-                />
-                <div>
-                  <h3 className="text-sm font-bold text-[#111] dark:text-white font-manrope">
-                    Christ Carl Tapat
-                  </h3>
-                  <p className="text-[10px] font-space text-[#777] dark:text-[#999]">
-                    Civil Engineer · Estimator
-                  </p>
+            className="w-full max-w-xs h-full bg-[#F7F7F8] dark:bg-[#0C0C0F] border-l border-black/[0.08] dark:border-white/[0.08] p-5 flex flex-col justify-between overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between pb-3 border-b border-black/[0.08] dark:border-white/[0.08]">
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src="/assets/profile/IMG_2080-web.jpg"
+                    alt="Christ Carl Tapat"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="text-xs font-bold text-[#111114] dark:text-[#F0F0F4]">
+                      Christ Carl Tapat
+                    </div>
+                    <div className="text-[10px] font-space text-[#FF5600]">
+                      Civil Engineer · Estimator
+                    </div>
+                  </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setMobileDrawerOpen(false)}
+                  className="p-1.5 rounded-lg bg-black/[0.05] dark:bg-white/[0.06] text-[#4A4A55] dark:text-[#9A9AA6]"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setMobileDrawerOpen(false)}
-                className="p-1.5 rounded-lg text-[#555] dark:text-[#aaa] hover:bg-black/5 dark:hover:bg-white/5"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              <nav className="flex flex-col gap-1">
+                {navItems.map((item) => {
+                  const isActive = activeSectionIndex === item.index;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => handleNavClick(item.index)}
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-colors ${
+                        isActive
+                          ? 'bg-[#111115] text-white dark:bg-white dark:text-[#0B0B0E] font-bold'
+                          : 'text-[#50505A] dark:text-[#A0A0AD]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="w-4 h-4 text-[#FF5600]" />
+                        <span className="text-xs">{item.label}</span>
+                      </div>
+                      <span className="text-[10px] font-space opacity-70">
+                        {item.kicker}
+                      </span>
+                    </button>
+                  );
+                })}
+              </nav>
             </div>
 
-            {/* Drawer Availability */}
-            <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 dark:border-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-xs font-space font-bold tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>#OPENFORWORK</span>
-            </div>
-
-            {/* Drawer Nav Items */}
-            <nav className="flex-1 py-4 flex flex-col gap-1">
-              {navItems.map((item) => {
-                const isActive = activeSectionIndex === item.index;
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.label}
-                    type="button"
-                    onClick={() => handleNavClick(item.index)}
-                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-manrope font-semibold text-left transition-all ${
-                      isActive
-                        ? 'bg-[#111115] text-white dark:bg-white dark:text-[#0B0B0E] font-bold'
-                        : 'text-[#444] dark:text-[#bbb] hover:bg-black/5 dark:hover:bg-white/5'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Icon className="w-4 h-4 text-[#FF5600]" />
-                      <span>{item.label}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-40" />
-                  </button>
-                );
-              })}
-            </nav>
-
-            {/* Drawer Bottom CTAs */}
             <div className="pt-4 border-t border-black/[0.08] dark:border-white/[0.08] flex flex-col gap-2">
               {onOpenBooking && (
                 <button
@@ -396,43 +402,21 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                     setMobileDrawerOpen(false);
                     onOpenBooking();
                   }}
-                  className="w-full py-2.5 rounded-xl bg-[#FF5600] text-white text-xs font-bold font-manrope shadow-md flex items-center justify-center gap-2"
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#FF5600] text-white text-xs font-bold flex items-center justify-center gap-2"
                 >
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>Book Discovery Call</span>
+                  <span>Book 30-Min Call</span>
                 </button>
               )}
-
               <a
                 href="/documents/Resume-Construction-Estimator-TAPAT.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2 rounded-xl bg-black/5 dark:bg-white/5 text-[#222] dark:text-[#ddd] text-xs font-semibold font-manrope text-center border border-black/10 dark:border-white/10"
+                className="w-full py-2 px-3 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] text-xs font-semibold text-center flex items-center justify-center gap-2"
               >
-                Download Resume (.PDF)
+                <Download className="w-3.5 h-3.5 text-[#FF5600]" />
+                <span>Resume PDF</span>
               </a>
-
-              <div className="flex items-center justify-between pt-2">
-                <button
-                  type="button"
-                  onClick={onToggleViewMode}
-                  className="flex items-center gap-1 text-[11px] text-[#666] dark:text-[#aaa]"
-                >
-                  {viewMode === 'panel' ? <Layers className="w-3.5 h-3.5 text-[#FF5600]" /> : <ScrollText className="w-3.5 h-3.5 text-[#FF5600]" />}
-                  <span>{viewMode === 'panel' ? 'Slide Deck Mode' : 'Scroll Mode'}</span>
-                </button>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#666] dark:text-[#aaa] hover:text-[#FF5600] transition-colors"
-                    title="LinkedIn"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </div>

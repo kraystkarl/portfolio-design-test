@@ -274,7 +274,7 @@ export default function App() {
         {/* Main Content Presentation */}
         {viewMode === 'panel' ? (
           /* CINEMATIC SLIDE PANEL MODE */
-          <main className="relative w-full h-[100dvh] pt-16 lg:pt-0 lg:pl-68 xl:pl-72 overflow-hidden">
+          <main className="relative w-full h-[100dvh] pt-16 lg:pt-0 lg:pl-72 xl:pl-80 overflow-hidden">
             <AnimatePresence mode="wait" custom={slideDirection}>
               <motion.div
                 key={activeSectionIndex}
@@ -291,7 +291,7 @@ export default function App() {
           </main>
         ) : (
           /* CONTINUOUS FREE SCROLL MODE */
-          <main className="relative pt-16 lg:pt-0 lg:pl-68 xl:pl-72 min-h-screen">
+          <main className="relative pt-16 lg:pt-0 lg:pl-72 xl:pl-80 min-h-screen">
             <HeroSection
               onOpenBooking={() => setIsBookingOpen(true)}
               onNavigateSection={handleSelectSection}
