@@ -158,7 +158,7 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
       },
       images: [
         {
-          src: '/pdfs/04_QC_Reconciliation.pdf',
+          src: '/pdfs/02_QC_Reviewed.pdf',
           title: 'QC Reconciliation Matrix · Zero Variance Audit',
           category: 'Excel Pack · Quality Assurance',
           description: 'Side-by-side audit matrix reconciling raw takeoff sums against final BOQ line item quantities.',
@@ -297,7 +297,7 @@ export const ProofSection: React.FC<ProofSectionProps> = ({ onInspectDocument, o
           </div>
 
           {/* RIGHT COLUMN: Interactive Document & Image Inspector Panel */}
-          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-3 panel-scrollbar flex flex-col gap-3">
+          <div className="lg:col-span-7 w-full flex flex-col gap-3">
             
             {/* If Phase 01 (Takeoff): 5 Sub-Drawing Markups */}
             {isTakeoffStep ? (

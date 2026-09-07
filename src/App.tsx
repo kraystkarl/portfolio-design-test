@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ThemeProvider } from './context/ThemeContext';
-import { Navbar } from './components/Navbar';
+import { SidebarNav } from './components/SidebarNav';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { ExperienceSection } from './components/ExperienceSection';
@@ -250,8 +250,8 @@ export default function App() {
           <div className="absolute bottom-[10%] left-[10%] w-[600px] h-[500px] bg-gradient-to-tr from-[#AAAAAA]/[0.05] dark:from-[#333333]/[0.15] to-transparent blur-3xl rounded-full" />
         </div>
 
-        {/* Christoph Nagel Floating Topbar */}
-        <Navbar
+        {/* Askim-Style Left-Hand Persistent Navigation Sidebar */}
+        <SidebarNav
           activeSectionIndex={activeSectionIndex}
           onSelectSection={handleSelectSection}
           viewMode={viewMode}
@@ -273,8 +273,8 @@ export default function App() {
 
         {/* Main Content Presentation */}
         {viewMode === 'panel' ? (
-          /* CINEMATIC SLIDE PANEL MODE (Christoph Nagel Architecture) */
-          <main className="relative w-full h-[100dvh] pt-16 sm:pt-18 overflow-hidden">
+          /* CINEMATIC SLIDE PANEL MODE */
+          <main className="relative w-full h-[100dvh] pt-16 lg:pt-0 lg:pl-68 xl:pl-72 overflow-hidden">
             <AnimatePresence mode="wait" custom={slideDirection}>
               <motion.div
                 key={activeSectionIndex}
@@ -291,7 +291,7 @@ export default function App() {
           </main>
         ) : (
           /* CONTINUOUS FREE SCROLL MODE */
-          <main className="relative pt-16 sm:pt-18">
+          <main className="relative pt-16 lg:pt-0 lg:pl-68 xl:pl-72 min-h-screen">
             <HeroSection
               onOpenBooking={() => setIsBookingOpen(true)}
               onNavigateSection={handleSelectSection}

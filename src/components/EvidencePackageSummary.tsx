@@ -99,7 +99,7 @@ export const EvidencePackageSummary: React.FC<EvidencePackageSummaryProps> = () 
           </div>
 
           {/* RIGHT COLUMN: The 6 Structured Audit Deliverables Grid */}
-          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-2 panel-scrollbar">
+          <div className="lg:col-span-7 w-full">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {packageItems.map((item) => {
                 const Icon = item.icon;

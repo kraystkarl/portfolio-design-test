@@ -719,46 +719,26 @@ canvas,
   transform: scaleX(1);
 }
 
-/* Dual-Purpose Center-Right Navigation Rail */
+/* Minimalist Scroll-Only Dot Indicator */
 #side-rail-nav {
   position: fixed !important;
-  z-index: 50 !important;
-  right: max(1.15rem, env(safe-area-inset-right)) !important;
+  z-index: 40 !important;
+  right: max(0.75rem, env(safe-area-inset-right)) !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   -webkit-transform: translateY(-50%) !important;
-  background: rgba(18, 18, 22, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 86, 0, 0.15);
-  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  background: rgba(18, 18, 22, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 200ms ease;
 }
 
 .light #side-rail-nav {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 86, 0, 0.15);
-  color: #1A1A1A;
-}
-
-.light #side-rail-nav button {
-  color: #333333;
-}
-
-.light #side-rail-nav button:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: #000000;
-}
-
-.light #side-rail-nav button[aria-current="step"] {
-  background: #ff5600 !important;
-  color: #ffffff !important;
-}
-
-.light #side-rail-nav .btn-prev:hover,
-.light #side-rail-nav .btn-next:hover {
-  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 /* Custom Panel Internal Scrollbar */

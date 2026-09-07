@@ -184,8 +184,8 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onNavigate
 
           </div>
 
-          {/* RIGHT COLUMN: Interactive Scrollable Content Panel (Christoph Nagel .content-panel) */}
-          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-3 panel-scrollbar flex flex-col gap-4">
+          {/* RIGHT COLUMN: Interactive Content Panel */}
+          <div className="lg:col-span-7 w-full flex flex-col gap-4">
             
             {activeCompany === 'deepbluee' ? (
               <div className="flex flex-col gap-4 animate-subtle-fade-in">

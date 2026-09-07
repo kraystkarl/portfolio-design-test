@@ -389,8 +389,8 @@ export const ToolsAndMethodologySection: React.FC<ToolsAndMethodologySectionProp
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Interactive Scrollable Content Panel */}
-          <div className="lg:col-span-7 w-full max-h-[calc(100dvh-10rem)] overflow-y-auto pr-1 sm:pr-3 panel-scrollbar flex flex-col gap-3">
+          {/* RIGHT COLUMN: Interactive Content Panel */}
+          <div className="lg:col-span-7 w-full flex flex-col gap-3">
             
             {/* VIEW 1: 8-Stage Estimating Flow */}
             {activeTab === 'methodology' && (
